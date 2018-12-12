@@ -1,0 +1,3 @@
+- git:
+    local-name: iiwa-stack
+    uri: https://github.com/IFL-CAMP/iiwa_stack.git
