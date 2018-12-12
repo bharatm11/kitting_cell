@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(kitting_cell)
-
+add_compile_options(-std=c++11)
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
 
@@ -8,10 +8,24 @@ project(kitting_cell)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  geometry_msgs
+  geometry_msgs
+  geometry_msgs
+  roscpp
+  roscpp
   roscpp
   rospy
+  rospy
+  rospy
   std_msgs
+  std_msgs
+  std_msgs
+  tf
+  tf_conversions
+  kdl_conversions
 )
+find_package( Eigen3 REQUIRED )
+find_package( orocos_kdl REQUIRED )
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -70,7 +84,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate added messages and services with any dependencies listed here
 # generate_messages(
 #   DEPENDENCIES
-#   std_msgs
+#   geometry_msgs#   geometry_msgs#   geometry_msgs#   omni_msgs#   omni_msgs#   omni_msgs#   std_msgs#   std_msgs#   std_msgs
 # )
 
 ################################################
@@ -104,9 +118,9 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES kitting_cell
-#  CATKIN_DEPENDS roscpp rospy std_msgs
-#  DEPENDS system_lib
+#  LIBRARIES my_tele
+  CATKIN_DEPENDS geometry_msgs geometry_msgs geometry_msgs roscpp roscpp roscpp rospy rospy rospy std_msgs std_msgs std_msgs kdl_conversions tf tf_conversions
+#  DEPENDS system_lib kdl_conversions tf tf_conversions
 )
 
 ###########
@@ -115,14 +129,21 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
+FIND_PATH(EIGEN3_INCLUDE_DIR Eigen/Core /usr/include /usr/include/eigen3 /usr/local/include /usr/local/include/eigen3)
+IF ( EIGEN3_INCLUDE_DIR )
+    MESSAGE(STATUS "-- Looking for Eigen3 - found")
+    SET(KDL_CFLAGS "${KDL_CFLAGS} -I${EIGEN3_INCLUDE_DIR}" CACHE INTERNAL "")
+ELSE ( EIGEN3_INCLUDE_DIR )
+    MESSAGE(FATAL_ERROR "-- Looking for Eigen3 - not found")
+ENDIF ( EIGEN3_INCLUDE_DIR )
 include_directories(
-# include
-  ${catkin_INCLUDE_DIRS}
+ include
+  ${catkin_INCLUDE_DIRS} ${EIGEN3_INCLUDE_DIR}
 )
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/kitting_cell.cpp
+#   src/${PROJECT_NAME}/my_tele.cpp
 # )
 
 ## Add cmake target dependencies of the library
@@ -133,7 +154,7 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/kitting_cell_node.cpp)
+# add_executable(${PROJECT_NAME}_node src/my_tele_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -190,10 +211,12 @@ include_directories(
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_kitting_cell.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_my_tele.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+
+
