@@ -190,7 +190,7 @@
 #include <kdl/chainiksolvervel_pinv.hpp>
 #include <kdl/chainiksolverpos_nr.hpp>
 #include <kdl/chainjnttojacsolver.hpp>
-
+#include <boost/scoped_ptr.hpp>
 /**
 * @brief Class to calculate forward and inverse kinematics for KUKA IIWA
 */
@@ -201,8 +201,9 @@ private:
   ///< variable to read current joint states
   KDL::Chain kinematicChain_;                     ///< KDL::Chain type vaiable to define
   ///< kinematic chain
-  KDL::ChainFkSolverPos_recursive fksolver_  ///< forward kinematic solver object
-  KDL::ChainIkSolverVel_pinv iksolverv_  ///< inverse kinematics solver velocity
+  //KDL::ChainFkSolverPos_recursive fksolver_;  ///< forward kinematic solver object
+  boost::scoped_ptr<KDL::ChainFkSolverPos> fksolver_;
+    boost::scoped_ptr<KDL::ChainIkSolverVel_pinv> iksolverv_;  ///< inverse kinematics solver velocity
   /// <object
   unsigned int numJoints_;  ///< unsigned int variable to hold number of
   ///< kinematic joints
@@ -212,6 +213,8 @@ private:
   trajectory_msgs::JointTrajectory jointCommands_; ///< final motion commads sent
   ///< to the robot
   bool kinematicsStatus_;  ///< verify solver status
+  boost::scoped_ptr<KDL::ChainIkSolverPos_NR> IKsolver_;
+  trajectory_msgs::JointTrajectoryPoint homePos_;
 
 public:
   /**
@@ -228,8 +231,8 @@ public:
   * @return <return_description>
   * @details <details>
   */
-  void initializeTrajectoryPoint()
-  void initializePoints()
+  void initializeTrajectoryPoint();
+  void initializeHomePos();
   /**
   * @brief <brief>
   * @param [in] <name> <parameter_description>
@@ -292,7 +295,7 @@ public:
   * @return <return_description>
   * @details <details>
   */
-  getJoints(const sensor_msgs::JointState::ConstPtr& joints)
+  void getJoints(const sensor_msgs::JointState::ConstPtr& jointsState_);
 
   /**
   * @brief <brief>
@@ -300,7 +303,7 @@ public:
   * @return <return_description>
   * @details <details>
   */
-  KDL::JntArray evalKinematicsIK(KDL::Frame, KDL::JntArray)
+  KDL::JntArray evalKinematicsIK(KDL::Frame);
 
   /**
   * @brief <brief>
@@ -308,7 +311,7 @@ public:
   * @return <return_description>
   * @details <details>
   */
-  KDL::Frame evalKinematicsFK(KDL::JntArray)
+  KDL::Frame evalKinematicsFK();
 
   /**
   * @brief <brief>
@@ -317,6 +320,8 @@ public:
   * @details <details>
   */
   void getJointNums();
+
+  trajectory_msgs::JointTrajectory homeRobot();
 };
 
 #endif /* KUKA_H_ */

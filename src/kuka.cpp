@@ -176,10 +176,16 @@
 */
 
 #include "kuka.hpp"
-
+#include <kdl/chainfksolver.hpp>
+#include <kdl/chainiksolver.hpp>
+#include <kdl/chainfksolverpos_recursive.hpp>
+#include <kdl/chainiksolvervel_pinv.hpp>
+#include <kdl/chainiksolverpos_nr.hpp>
+#include <kdl/chainjnttojacsolver.hpp>
 void kuka::makeChain() {
   //Define LWR chain_
-  KDL::chain_ chain_;
+  KDL::Chain chain_;
+
   //base
   chain_.addSegment(KDL::Segment(KDL::Joint(KDL::Joint::None),KDL::Frame::DH_Craig1989(0,0,0.33989,0)));
   //joint 1
@@ -196,50 +202,114 @@ void kuka::makeChain() {
   chain_.addSegment(KDL::Segment(KDL::Joint(KDL::Joint::RotZ),KDL::Frame::DH_Craig1989(0, M_PI_2,0,0)));
   //joint 7 (with flange adapter)
   chain_.addSegment(KDL::Segment(KDL::Joint(KDL::Joint::RotZ),KDL::Frame::DH_Craig1989(0,0,0.12597,0)));
-  this->kinematicChain_ = chain_;
+  kuka::kinematicChain_ = chain_;
+  kuka::fksolver_.reset(new KDL::ChainFkSolverPos_recursive(chain_));
+  kuka::iksolverv_.reset(new KDL::ChainIkSolverVel_pinv(chain_));
+  KDL::ChainFkSolverPos_recursive fksolver = KDL::ChainFkSolverPos_recursive(chain_);
+  KDL::ChainIkSolverVel_pinv iksolverv = KDL::ChainIkSolverVel_pinv(chain_);
+  kuka::IKsolver_.reset(new KDL::ChainIkSolverPos_NR(chain_,fksolver,
+                                                      iksolverv,100,1e-4));
+
 }
 
 void kuka::getJointNums() {
-  this->numJoints = this->kinematicChain_.getNrOfJoints();
+  kuka::numJoints_ = kuka::kinematicChain_.getNrOfJoints();
+  kuka::jointPosKdl_=KDL::JntArray(numJoints_);
+  kuka::newJointPosKdl_=KDL::JntArray(numJoints_);
 }
 
 void kuka::initializeTrajectoryPoint() {
-  this->jointCommands_.joint_names.push_back("iiwa_joint_1");
-  this->jointCommands_.joint_names.push_back("iiwa_joint_2");
-  this->jointCommands_.joint_names.push_back("iiwa_joint_3")
-  this->jointCommands_.joint_names.push_back("iiwa_joint_4");
-  this->jointCommands_.joint_names.push_back("iiwa_joint_5");
-  this->jointCommands_.joint_names.push_back("iiwa_joint_6");
-  this->jointCommands_.joint_names.push_back("iiwa_joint_7");
-  this->jointCommands_.header.seq = 0;
-  this->jointCommands_.header.stamp=ros::Time::now();
-  this->jointCommands_.header.frame_id = "";
+  kuka::jointCommands_.joint_names.push_back("iiwa_joint_1");
+  kuka::jointCommands_.joint_names.push_back("iiwa_joint_2");
+  kuka::jointCommands_.joint_names.push_back("iiwa_joint_3");
+  kuka::jointCommands_.joint_names.push_back("iiwa_joint_4");
+  kuka::jointCommands_.joint_names.push_back("iiwa_joint_5");
+  kuka::jointCommands_.joint_names.push_back("iiwa_joint_6");
+  kuka::jointCommands_.joint_names.push_back("iiwa_joint_7");
+  kuka::jointCommands_.header.seq = 0;
+  kuka::jointCommands_.header.stamp=ros::Time::now();
+  kuka::jointCommands_.header.frame_id = "";
 }
-void kuka::initializePoints() {
-  for (int i = 0; i < this->numJoints; ++i)
+void kuka::initializeHomePos() {
+  for (int i = 0; i < kuka::numJoints_; ++i)
   {
     if(i==0)
-    this->jointCommands_.positions.push_back(0);//1.3);
+    kuka::homePos_.positions.push_back(0);//1.3);
     if(i==1)
-    this->jointCommands_.positions.push_back(1.0);//0.0);
+    kuka::homePos_.positions.push_back(1.0);//0.0);
     if(i==2)
-    this->jointCommands_.positions.push_back(1.0);//0.0);
+    kuka::homePos_.positions.push_back(1.0);//0.0);
     if(i==3)
-    this->jointCommands_.positions.push_back(-1.57);//-1.57);
+    kuka::homePos_.positions.push_back(-1.57);//-1.57);
     if(i==4)
-    this->jointCommands_.positions.push_back(0.0);//0.0);
+    kuka::homePos_.positions.push_back(0.0);//0.0);
     if(i==5)
-    this->jointCommands_.positions.push_back(1.0);//1.57);
+    kuka::homePos_.positions.push_back(1.0);//1.57);
     if(i==6)
-    this->jointCommands_.positions.push_back(0);
+    kuka::homePos_.positions.push_back(0);
+  }
+  kuka::homePos_.time_from_start = ros::Duration(1.0);
+}
+
+void kuka::initializeJointsKDL() {
+	for (int i = 0; i < kuka::numJoints_; ++i) {
+    kuka::jointPosKdl_(i) = 0.2;
+    kuka::newJointPosKdl_(i) = 0.2;
   }
 }
 
+  void kuka::initializeJointsSub() {
+	for (int i = 0; i < kuka::numJoints_; ++i) {
+	kuka::jointsState_.position.push_back(0.2);
+}
+}
+trajectory_msgs::JointTrajectory kuka::homeRobot() {
+  trajectory_msgs::JointTrajectory jointCmd;
+  jointCmd=kuka::jointCommands_;
+  jointCmd.points[0] = kuka::homePos_;
+	jointCmd.header.seq = 0;
+	jointCmd.header.stamp=ros::Time::now();
+	jointCmd.header.frame_id = "";
+  return jointCmd;
+}
+
+KDL::Frame kuka::evalKinematicsFK() {
+  KDL::Frame cartPos;
+  for (int k = 0; k<numJoints_; ++k) {
+    kuka::jointPosKdl_(k) = kuka::jointsState_.position[k];
+  }
+  kuka::kinematicsStatus_ = kuka::fksolver_->JntToCart(kuka::jointPosKdl_,cartPos);
+  kuka::currCartpos_=cartPos;
+  return cartPos;
+}
+
+KDL::JntArray kuka::evalKinematicsIK(KDL::Frame cartpos) {
+  int ret = kuka::IKsolver_->CartToJnt(kuka::jointPosKdl_,cartpos,kuka::newJointPosKdl_);
+  return kuka::newJointPosKdl_;
+}
+
+trajectory_msgs::JointTrajectoryPoint kuka::normalizePoints(KDL::JntArray) {
+  trajectory_msgs::JointTrajectoryPoint point_;
+  // joints can move between -+: 172,120,172,120,172,120,170
+  //double joint_bounds[] = {3.002, 2.0944,3.002, 2.0944,3.002, 2.0944, 3.002};
+  for (int i = 0; i < kuka::numJoints_; ++i){
+    while(kuka::newJointPosKdl_(i) > M_PI)
+    kuka::newJointPosKdl_(i) -= 2*M_PI;
+    while(kuka::newJointPosKdl_(i) < -M_PI)
+    kuka::newJointPosKdl_(i) += 2*M_PI;
+    point_.positions[i] = kuka::newJointPosKdl_(i);
+  }
+  return point_;
+}
+
+
 kuka::kuka() {
-  this->fksolver_ = KDL::chain_FkSolverPos_recursive(this->kinematicChain_);
-  this->iksolverv_ = KDL::chain_IkSolverVel_pinv(this->kinematicChain_);
-  KDL::chain_IkSolverPos_NR IKsolver(this->kinematicchain_,this->fksolver,
-                                                    this->iksolverv,100,1e-4);
-                                //Maximum 100 iterations, stop at accuracy 1e-6
-  this->iksolver = IKsolver;
+ kuka::makeChain();
+ kuka::getJointNums();
+ kuka::initializeTrajectoryPoint();
+ kuka::initializeHomePos();
+ kuka::jointPosKdl_=KDL::JntArray(kuka::numJoints_);
+ kuka::newJointPosKdl_=KDL::JntArray(kuka::numJoints_);
+kuka::initializeJointsKDL();
+kuka::initializeJointsSub();
 }
