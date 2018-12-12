@@ -1,0 +1,5 @@
+<launch>
+<include file="$(find iiwa_moveit)/launch/moveit_planning_execution.launch">
+  <arg name="sim" value="false"/>
+</include>
+</launch>
