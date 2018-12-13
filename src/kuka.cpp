@@ -274,6 +274,13 @@ KDL::JntArray kuka::initializeJointsKDL() {
   return kuka::jointPosKdl_;
 }
 
+sensor_msgs::JointState kuka::initializeJointsSub() {
+  for (int i = 0; i < kuka::numJoints_; ++i) {
+    kuka::jointsState_.position.push_back(0.2);
+  }
+  return kuka::jointsState_;
+}
+
 kuka::kuka() {
   kuka::makeChain();
   kuka::getJointNums();
