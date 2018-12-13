@@ -281,6 +281,23 @@ sensor_msgs::JointState kuka::initializeJointsSub() {
   return kuka::jointsState_;
 }
 
+trajectory_msgs::JointTrajectory kuka::driveRobot(
+                                  trajectory_msgs::JointTrajectoryPoint point) {
+  trajectory_msgs::JointTrajectory jointCmd;
+  jointCmd.joint_names.push_back("iiwa_joint_1");
+  jointCmd.joint_names.push_back("iiwa_joint_2");
+  jointCmd.joint_names.push_back("iiwa_joint_3");
+  jointCmd.joint_names.push_back("iiwa_joint_4");
+  jointCmd.joint_names.push_back("iiwa_joint_5");
+  jointCmd.joint_names.push_back("iiwa_joint_6");
+  jointCmd.joint_names.push_back("iiwa_joint_7");
+  jointCmd.header.seq = 0;
+  jointCmd.header.stamp = ros::Time::now();
+  jointCmd.header.frame_id = "";
+  jointCmd.points.push_back(point);
+  return jointCmd;
+}
+
 kuka::kuka() {
   kuka::makeChain();
   kuka::getJointNums();
