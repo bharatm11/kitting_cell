@@ -266,6 +266,14 @@ trajectory_msgs::JointTrajectoryPoint kuka::initializeHomePos() {
   return kuka::homePos_;
 }
 
+KDL::JntArray kuka::initializeJointsKDL() {
+  for (int i = 0; i < kuka::numJoints_; ++i) {
+    kuka::jointPosKdl_(i) = 0.2;
+    kuka::newJointPosKdl_(i) = 0.2;
+  }
+  return kuka::jointPosKdl_;
+}
+
 kuka::kuka() {
   kuka::makeChain();
   kuka::getJointNums();
