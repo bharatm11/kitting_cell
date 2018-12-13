@@ -172,18 +172,19 @@
 * @brief This file defines the methods for class "kuka" to control a KUKA IIWA
 * manipulator using on IIWA_STACK using OROCOS KDL
 */
-#ifndef KUKA_H_
-#define KUKA_H_
+#ifndef ENPM_SOFT_DEV_COURSE_FINAL_PROJECT_SRC_KITTING_CELL_INCLUDE_KUKA_HPP_
+#define ENPM_SOFT_DEV_COURSE_FINAL_PROJECT_SRC_KITTING_CELL_INCLUDE_KUKA_HPP_
 
+
+#include<std_msgs/UInt8.h>
+#include<std_msgs/Bool.h>
+#include<std_msgs/Float64.h>
+#include<std_msgs/Int16.h>
 #include<ros/ros.h>
 #include<sensor_msgs/JointState.h>
 #include<trajectory_msgs/JointTrajectory.h>
 #include<trajectory_msgs/JointTrajectoryPoint.h>
 #include<kdl/chain.hpp>
-#include<std_msgs/UInt8.h>
-#include<std_msgs/Bool.h>
-#include<std_msgs/Float64.h>
-#include<std_msgs/Int16.h>
 #include <kdl/chainfksolver.hpp>
 #include <kdl/chainiksolver.hpp>
 #include <kdl/chainfksolverpos_recursive.hpp>
@@ -191,137 +192,117 @@
 #include <kdl/chainiksolverpos_nr.hpp>
 #include <kdl/chainjnttojacsolver.hpp>
 #include <boost/scoped_ptr.hpp>
+
 /**
 * @brief Class to calculate forward and inverse kinematics for KUKA IIWA
 */
 
 class kuka {
-private:
-  sensor_msgs::JointState jointsState_; ///< sensor_msgs::JointState tye
-  ///< variable to read current joint states
-  KDL::Chain kinematicChain_;                     ///< KDL::Chain type vaiable to define
-  ///< kinematic chain
-  //KDL::ChainFkSolverPos_recursive fksolver_;  ///< forward kinematic solver object
-  boost::scoped_ptr<KDL::ChainFkSolverPos> fksolver_;
-    boost::scoped_ptr<KDL::ChainIkSolverVel_pinv> iksolverv_;  ///< inverse kinematics solver velocity
-  /// <object
+ private:
+  sensor_msgs::JointState jointsState_;  ///< sensor_msgs::JointState tye
+                                ///< variable to read current joint states
+  KDL::Chain kinematicChain_;  ///< KDL::Chain type vaiable for robot chain
   unsigned int numJoints_;  ///< unsigned int variable to hold number of
-  ///< kinematic joints
+                            ///< kinematic joints
   KDL::JntArray jointPosKdl_;  ///< KDL joint array current for FK
   KDL::JntArray newJointPosKdl_;  ///< KDL joint array new from IK
-  KDL::Frame currCartpos_;  ///< current cartesian pose in from FK
-  trajectory_msgs::JointTrajectory jointCommands_; ///< final motion commads sent
-  ///< to the robot
-  bool kinematicsStatus_;  ///< verify solver status
-  boost::scoped_ptr<KDL::ChainIkSolverPos_NR> IKsolver_;
+  KDL::Frame currCartpos_;  ///< KDL::Frame variable for current cartesianpose
+  trajectory_msgs::JointTrajectory jointCommands_;
+    ///< trajectory_msgs::JointTrajectory variable for final jointCommands
   trajectory_msgs::JointTrajectoryPoint homePos_;
 
-public:
+ public:
   /**
-  * @brief <brief>
-  * @param [in] <name> <parameter_description>
-  * @return <return_description>
-  * @details <details>
-  */
-
+   * @brief This is the constructor for the class
+   */
   kuka();
   /**
-  * @brief <brief>
-  * @param [in] <name> <parameter_description>
-  * @return <return_description>
-  * @details <details>
-  */
-  void initializeTrajectoryPoint();
-  void initializeHomePos();
+    * @brief This initializes kuka::jointCommands_ to 0.0
+    * @param none
+    * @return trajectory_msgs::JointTrajectory type variable initialized to robot
+    *         joint names, header, and time stamp
+    */
+  trajectory_msgs::JointTrajectory initializeTrajectoryPoint();
   /**
-  * @brief <brief>
-  * @param [in] <name> <parameter_description>
-  * @return <return_description>
-  * @details <details>
-  */
-  void initializeJointsSub();
+    * @brief This initializes the home position for the robot
+    * @param none
+    * @return trajectory_msgs::JointTrajectoryPoint type variable to define
+    *         robot's destination
+    */
+  trajectory_msgs::JointTrajectoryPoint initializeHomePos();
   /**
-  * @brief <brief>
-  * @param [in] <name> <parameter_description>
-  * @return <return_description>
-  * @details <details>
-  */
-  void initializeJointsKDL();
+    * @brief This initializes the variable that takes in the joint values from
+    *        the subscriber
+    * @param none
+    * @return sensor_msgs::JointState variable to hold joint values
+    */
+  sensor_msgs::JointState initializeJointsSub();
   /**
-  * @brief <brief>
-  * @param [in] <name> <parameter_description>
-  * @return <return_description>
-  * @details <details>
-  */
-  void defineFKSolver();
+    * @brief This initializes the joint arrays that are fed to the kinematic
+    *        solvers
+    * @param none
+    * @return initialized joint arrays for KDL solvers
+    */
+  KDL::JntArray initializeJointsKDL();
   /**
-  * @brief <brief>
-  * @param [in] <name> <parameter_description>
-  * @return <return_description>
-  * @details <details>
-  */
-  void defineIKSolver();
+    * @brief This defines the kinematic chain for KDL
+    * @param none
+    * @return KDL::Chain variable that holds the kinematic chain
+    */
+  KDL::Chain makeChain();
   /**
-  * @brief <brief>
-  * @param [in] <name> <parameter_description>
-  * @return <return_description>
-  * @details <details>
-  */
-  void defineIKVSolver();
-  /**
-  * @brief <brief>
-  * @param [in] <name> <parameter_description>
-  * @return <return_description>
-  * @details <details>
-  */
-  void makeChain();
-  /**
-  * @brief <brief>
-  * @param [in] <name> <parameter_description>
-  * @return <return_description>
-  * @details <details>
-  */
+    * @brief This normalizes the joint angles after Inverse Kinematics
+    * @param the joint array calculated frm inverse kinematics
+    * @return trajectory_msgs::JointTrajectoryPoint variable tha holds
+    *         joint trajectory point to move the robot to
+    */
   trajectory_msgs::JointTrajectoryPoint normalizePoints(KDL::JntArray);
   /**
-  * @brief <brief>
-  * @param [in] <name> <parameter_description>
-  * @return <return_description>
-  * @details <details>
-  */
-  bool checkKinematicStatus();
-  /**
-  * @brief <brief>
-  * @param [in] <name> <parameter_description>
-  * @return <return_description>
-  * @details <details>
+    * @brief This is the subscriber to read joint values for the robot
+    * @param jointsState_ is the variable that holds the current joint values
+    * @return void
+    * @details
   */
   void getJoints(const sensor_msgs::JointState::ConstPtr& jointsState_);
 
   /**
-  * @brief <brief>
-  * @param [in] <name> <parameter_description>
-  * @return <return_description>
-  * @details <details>
-  */
+    * @brief This performs the inverse kinematics to get joint angles from
+    *        cartesian pose
+    * @param the cartesian pose
+    * @return KDL::JntArray type joint array calculated from IK
+    */
   KDL::JntArray evalKinematicsIK(KDL::Frame);
 
   /**
-  * @brief <brief>
-  * @param [in] <name> <parameter_description>
-  * @return <return_description>
-  * @details <details>
-  */
+    * @brief This performs the forward kinematics to get cartesian pose from
+    *        joint angles
+    * @param none
+    * @return KDL::Frame type cartesian pose from FK
+    */
   KDL::Frame evalKinematicsFK();
 
   /**
-  * @brief <brief>
-  * @param [in] <name> <parameter_description>
-  * @return <return_description>
-  * @details <details>
-  */
-  void getJointNums();
+    * @brief This calculates the number of joints in the chain and also
+    *        preallocates jointPosKdl_ and newJointPosKdl_ data members
+    * @param none
+    * @return number of joints as unsigned int variable
+    */
+  unsigned int getJointNums();
 
-  trajectory_msgs::JointTrajectory homeRobot();
+  /**
+    * @brief This forms the JointTrajectory message to whoch the robot is supposed
+    *        to move
+    * @param JointTrajectoryPoint containing joint angles
+    * @return JointTrajectory to drive the robot
+    */
+  trajectory_msgs::JointTrajectory driveRobot(
+                                         trajectory_msgs::JointTrajectoryPoint);
+  /**
+    * @brief This returns the current joint of the robot
+    * @param none
+    * @return KDL::JntArray type variable of joint angles
+    */
+  KDL::JntArray returnCurrJoints();
 };
 
-#endif /* KUKA_H_ */
+#endif  // ENPM_SOFT_DEV_COURSE_FINAL_PROJECT_SRC_KITTING_CELL_INCLUDE_KUKA_HPP_
