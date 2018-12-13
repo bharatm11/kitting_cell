@@ -15,6 +15,17 @@ will have multiple colors to resemble different types of products. Parts will be
 for the arm. Based on the order received, the arm will pick the proper parts and place them in a
 box.
 
+## About the Developers
+
+ * Bharat Mathur
+
+ Bharat is a roboticist based in Maryland with a background in Controls & Embedded Systems for Medical Robots and Unmanned Aerial Systems. He is currently pursuing his master's degree in Robotics at the University of Maryland, College Park and is a graduate researcher in the Medical Robotics & Equipment Lab (MREL) at the University of Maryland under Dr. Axel Krieger. His research is focused on Human-Robot Interaction and haptics while integrating methodologies from robotics, control theory, artificial intelligence, machine vision, and human psychology to develop intelligent robots for deployment in medical and surgical applications. 
+He received his bachelor's in Mechatronics Engineering from SRM University, Katlankulathur where his research was focused around civilian and industrial applications of Unmanned Aerial Systems (UAS). He was a founding member of the university's UAS research team, SRM-UAV during his freshman year. He worked as a Controls & Embedded Systems engineer and also led the team during his junior and senior years. While at SRM-UAV, he worked on a variety of aerial platforms such as rotary-wings, fixed-wings, tilt-rotors, and hybrids for applications like wind turbine inspection, mapping, surveillance, package delivery etc.
+
+ * Royneal Rayess
+
+ Royneal is a recent robotics graduate from the University of Maryland, he earned his bachelors of science in electrical engineering in 2010 at the Grove School of Engineering at the City College of New York. As an undergrad, he worked on developing obstacle avoidance algorithms and participated in multiple Intelligent Ground Vehicle competitions. He also, in an independent study, investigated quadruped locomotion on a 28 DOF robot. His professional experience spans seven years of test engineering and test automation in renewable smart grid and iris biometrics industries. Currently, he is studying visual servoing techniques and implementation for six DOF manipulators using ROS.
+
 ## Solo Iterative Process (SIP)
 
 Link to SIP Planning:
