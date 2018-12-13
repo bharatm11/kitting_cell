@@ -311,6 +311,17 @@ KDL::Frame kuka::evalKinematicsFK() {
   return cartPos;
 }
 
+KDL::JntArray kuka::evalKinematicsIK(KDL::Frame cartpos) {
+  KDL::Chain chain = kuka::makeChain();
+  KDL::ChainFkSolverPos_recursive fksolver =
+                                         KDL::ChainFkSolverPos_recursive(chain);
+  KDL::ChainIkSolverVel_pinv iksolverv = KDL::ChainIkSolverVel_pinv(chain);
+  KDL::ChainIkSolverPos_NR iksolver(chain, fksolver, iksolverv, 100, 1e-4);
+  int ret = iksolver.CartToJnt(kuka::jointPosKdl_, cartpos,
+                                                         kuka::newJointPosKdl_);
+  return kuka::newJointPosKdl_;
+}
+
 kuka::kuka() {
   kuka::makeChain();
   kuka::getJointNums();
