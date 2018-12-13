@@ -298,6 +298,19 @@ trajectory_msgs::JointTrajectory kuka::driveRobot(
   return jointCmd;
 }
 
+KDL::Frame kuka::evalKinematicsFK() {
+  KDL::Chain chain = kuka::makeChain();
+  KDL::ChainFkSolverPos_recursive fksolver =
+                                         KDL::ChainFkSolverPos_recursive(chain);
+  KDL::Frame cartPos;
+  for (int k = 0; k < numJoints_; ++k) {
+    kuka::jointPosKdl_(k) = kuka::jointsState_.position[k];
+  }
+  bool status = fksolver.JntToCart(kuka::jointPosKdl_, cartPos);
+  kuka::currCartpos_ = cartPos;
+  return cartPos;
+}
+
 kuka::kuka() {
   kuka::makeChain();
   kuka::getJointNums();
