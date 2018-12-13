@@ -223,3 +223,15 @@ include_directories(
 add_executable(kuka src/main.cpp src/kuka.cpp)
 target_link_libraries(kuka ${catkin_LIBRARIES} orocos-kdl)
 
+if (CATKIN_ENABLE_TESTING)
+find_package(rostest REQUIRED)
+add_rostest_gtest(mypackagetest test/nodetest.launch test/my_packg_test.cpp)
+target_link_libraries(mypackagetest ${catkin_LIBRARIES})
+add_dependencies(
+  mypackagetest
+  kuka
+  ${PROJECT_NAME}_generate_messages_cpp
+  ${catkin_EXPORTED_TARGETS}
+  )
+endif()
+

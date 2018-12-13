@@ -76,6 +76,7 @@
   <!-- The export tag contains other, unspecified, tags -->
   <export>
     <!-- Other tools can request additional information be placed here -->
-
+  
   </export>
+  <test_depend>rostest</test_depend>
 </package>
