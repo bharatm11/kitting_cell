@@ -224,6 +224,13 @@ void kuka::getJoints(const sensor_msgs::JointState::ConstPtr& msg) {
   }
 }
 
+unsigned int kuka::getJointNums() {
+  kuka::numJoints_ = kuka::kinematicChain_.getNrOfJoints();
+  kuka::jointPosKdl_ = KDL::JntArray(numJoints_);
+  kuka::newJointPosKdl_ = KDL::JntArray(numJoints_);
+  return kuka::numJoints_;
+}
+
 kuka::kuka() {
   kuka::makeChain();
   kuka::getJointNums();
