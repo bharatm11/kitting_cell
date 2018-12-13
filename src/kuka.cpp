@@ -322,6 +322,23 @@ KDL::JntArray kuka::evalKinematicsIK(KDL::Frame cartpos) {
   return kuka::newJointPosKdl_;
 }
 
+trajectory_msgs::JointTrajectoryPoint kuka::normalizePoints(KDL::JntArray joints) {
+  trajectory_msgs::JointTrajectoryPoint point;
+  // joints can move between -+: 172,120,172,120,172,120,170
+  // double joint_bounds[] = {3.002, 2.0944,3.002, 2.0944,3.002, 2.0944, 3.002};
+  for (int i = 0; i < kuka::numJoints_; ++i) {
+    while (joints(i) > M_PI) {
+      joints(i) -= 2*M_PI;
+    }
+    while (joints(i) < -M_PI) {
+      joints(i) += 2*M_PI;
+    }
+    point.positions.push_back(joints(i));
+    //point.positions[i] = joints(i);
+  }
+  return point;
+}
+
 kuka::kuka() {
   kuka::makeChain();
   kuka::getJointNums();
