@@ -231,6 +231,20 @@ unsigned int kuka::getJointNums() {
   return kuka::numJoints_;
 }
 
+trajectory_msgs::JointTrajectory kuka::initializeTrajectoryPoint() {
+  kuka::jointCommands_.joint_names.push_back("iiwa_joint_1");
+  kuka::jointCommands_.joint_names.push_back("iiwa_joint_2");
+  kuka::jointCommands_.joint_names.push_back("iiwa_joint_3");
+  kuka::jointCommands_.joint_names.push_back("iiwa_joint_4");
+  kuka::jointCommands_.joint_names.push_back("iiwa_joint_5");
+  kuka::jointCommands_.joint_names.push_back("iiwa_joint_6");
+  kuka::jointCommands_.joint_names.push_back("iiwa_joint_7");
+  kuka::jointCommands_.header.seq = 0;
+  kuka::jointCommands_.header.stamp = ros::Time::now();
+  kuka::jointCommands_.header.frame_id = "";
+  return kuka::jointCommands_;
+}
+
 kuka::kuka() {
   kuka::makeChain();
   kuka::getJointNums();
