@@ -339,6 +339,12 @@ trajectory_msgs::JointTrajectoryPoint kuka::normalizePoints(KDL::JntArray joints
   return point;
 }
 
+KDL::JntArray kuka::returnCurrJoints() {
+  KDL::JntArray joints;
+  joints = kuka::jointPosKdl_;
+  return kuka::jointPosKdl_;
+}
+
 kuka::kuka() {
   kuka::makeChain();
   kuka::getJointNums();
