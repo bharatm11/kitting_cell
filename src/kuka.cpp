@@ -218,6 +218,12 @@ KDL::Chain kuka::makeChain() {
   return chain_;
 }
 
+void kuka::getJoints(const sensor_msgs::JointState::ConstPtr& msg) {
+  for (int i = 0; i < msg->position.size(); ++i) {
+    kuka::jointsState_.position[i] = msg->position[i];
+  }
+}
+
 kuka::kuka() {
   kuka::makeChain();
   kuka::getJointNums();
