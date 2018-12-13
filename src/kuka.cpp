@@ -245,6 +245,27 @@ trajectory_msgs::JointTrajectory kuka::initializeTrajectoryPoint() {
   return kuka::jointCommands_;
 }
 
+trajectory_msgs::JointTrajectoryPoint kuka::initializeHomePos() {
+  for (int i = 0; i < kuka::numJoints_; ++i) {
+    if (i == 0)
+    kuka::homePos_.positions.push_back(0);
+    if (i == 1)
+    kuka::homePos_.positions.push_back(0);
+    if (i == 2)
+    kuka::homePos_.positions.push_back(0);
+    if (i == 3)
+    kuka::homePos_.positions.push_back(-1.57);
+    if (i == 4)
+    kuka::homePos_.positions.push_back(0.0);
+    if (i == 5)
+    kuka::homePos_.positions.push_back(1.57);
+    if (i == 6)
+    kuka::homePos_.positions.push_back(0);
+  }
+  kuka::homePos_.time_from_start = ros::Duration(1.0);
+  return kuka::homePos_;
+}
+
 kuka::kuka() {
   kuka::makeChain();
   kuka::getJointNums();
