@@ -184,5 +184,13 @@
 
 
 TEST(colorThresholderTest,CheckReturnOutput) {
-  EXPECT_EQ(0,0);
+  ros::NodeHandle n;
+  Perception p;
+  image_transport::ImageTransport imgT_(n);
+  image_transport::Subscriber imageSubscriber_ = imgT_.subscribe("/camera/image_raw", 1,
+  &Perception::ReadImg, &p);
+  ros::Duration(1).sleep();
+  ros::spinOnce();
+  int a = p.colorThresholder("red");
+  EXPECT_EQ(2,a);
 }

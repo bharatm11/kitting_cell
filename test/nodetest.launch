@@ -1,5 +1,10 @@
 <launch>
+  <arg default="false" name="gui"/>
+  <arg default="true" name="headless"/>
+  <include file="$(find iiwa_gazebo)/launch/iiwa_gazebo.launch">
+    <arg name="gui" value="$(arg gui)"/>
+  </include>
     <node pkg="kitting_cell" type="kuka" name="kuka" output="screen">
-    </node>
-    <test test-name="allTests" pkg="kitting_cell" type="allTests" />  
+  </node>
+  <test test-name="allTests" pkg="kitting_cell" type="allTests" />
 </launch>
