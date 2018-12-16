@@ -32,6 +32,7 @@ message_generation
 )
 find_package( Eigen3 REQUIRED )
 find_package( orocos_kdl REQUIRED )
+find_package(gazebo REQUIRED)
 find_package(OpenCV REQUIRED)
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -231,7 +232,8 @@ target_link_libraries(kuka ${catkin_LIBRARIES} ${OpenCV_LIBS} orocos-kdl)
 
 if (CATKIN_ENABLE_TESTING)
 find_package(rostest REQUIRED)
-add_rostest_gtest(allTests test/nodetest.launch test/main.cpp test/kukaTests.cpp src/kuka.cpp)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 --coverage")
+add_rostest_gtest(allTests test/nodetest.launch test/main.cpp test/kukaTests.cpp test/PerceptionTests.cpp src/kuka.cpp)
 target_link_libraries(allTests ${catkin_LIBRARIES} ${OpenCV_LIBS} orocos-kdl ${GAZEBO_INCLUDE_DIRS})
 add_dependencies(
   allTests
