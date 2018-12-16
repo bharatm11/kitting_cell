@@ -227,13 +227,13 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
-add_executable(kuka  src/main.cpp src/kuka.cpp src/Perception.cpp)
+add_executable(kuka  src/main.cpp src/kuka.cpp src/Perception.cpp src/Grip.cpp)
 target_link_libraries(kuka ${catkin_LIBRARIES} ${OpenCV_LIBS} orocos-kdl)
 
 if (CATKIN_ENABLE_TESTING)
 find_package(rostest REQUIRED)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 --coverage")
-add_rostest_gtest(allTests test/nodetest.launch test/main.cpp test/kukaTests.cpp test/PerceptionTests.cpp src/kuka.cpp)
+add_rostest_gtest(allTests test/nodetest.launch test/main.cpp test/kukaTests.cpp test/PerceptionTests.cpp test/GripTests.cpp src/kuka.cpp src/Grip.cpp src/Perception.cpp)
 target_link_libraries(allTests ${catkin_LIBRARIES} ${OpenCV_LIBS} orocos-kdl ${GAZEBO_INCLUDE_DIRS})
 add_dependencies(
   allTests
