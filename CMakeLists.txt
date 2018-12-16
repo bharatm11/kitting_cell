@@ -225,13 +225,12 @@ target_link_libraries(kuka ${catkin_LIBRARIES} orocos-kdl)
 
 if (CATKIN_ENABLE_TESTING)
 find_package(rostest REQUIRED)
-add_rostest_gtest(mypackagetest test/nodetest.launch test/my_packg_test.cpp)
-target_link_libraries(mypackagetest ${catkin_LIBRARIES})
+add_rostest_gtest(allTests test/nodetest.launch test/main.cpp test/kukaTests.cpp src/kuka.cpp)
+target_link_libraries(allTests ${catkin_LIBRARIES} orocos-kdl)
 add_dependencies(
-  mypackagetest
+  allTests
   kuka
   ${PROJECT_NAME}_generate_messages_cpp
   ${catkin_EXPORTED_TARGETS}
   )
 endif()
-
