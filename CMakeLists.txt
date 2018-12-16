@@ -23,10 +23,16 @@ find_package(catkin REQUIRED COMPONENTS
   tf
   tf_conversions
   kdl_conversions
+  sensor_msgs
+  cv_bridge
+  roscpp
+  std_msgs
+  image_transport
+message_generation
 )
 find_package( Eigen3 REQUIRED )
 find_package( orocos_kdl REQUIRED )
-
+find_package(OpenCV REQUIRED)
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 
@@ -220,13 +226,13 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
-add_executable(kuka src/main.cpp src/kuka.cpp)
-target_link_libraries(kuka ${catkin_LIBRARIES} orocos-kdl)
+add_executable(kuka  src/main.cpp src/kuka.cpp src/Perception.cpp)
+target_link_libraries(kuka ${catkin_LIBRARIES} ${OpenCV_LIBS} orocos-kdl)
 
 if (CATKIN_ENABLE_TESTING)
 find_package(rostest REQUIRED)
 add_rostest_gtest(allTests test/nodetest.launch test/main.cpp test/kukaTests.cpp src/kuka.cpp)
-target_link_libraries(allTests ${catkin_LIBRARIES} orocos-kdl)
+target_link_libraries(allTests ${catkin_LIBRARIES} ${OpenCV_LIBS} orocos-kdl ${GAZEBO_INCLUDE_DIRS})
 add_dependencies(
   allTests
   kuka
