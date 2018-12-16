@@ -9,61 +9,68 @@
 # (setup.bash). Then, it compiles the entire ROS workspace (ensuring there are
 # no compilation errors), and runs all the tests. If any of the compilation/test
 # phases fail, the build is marked as a failure.
+#
+# We handle two types of package dependencies specified in the package manifest:
+#   - system dependencies that can be installed using `rosdep`, including other
+#     ROS packages and system libraries. These dependencies must be known to
+#     `rosdistro` and are installed using apt-get.
+#   - package dependencies that must be checked out from source. These are handled by
+#     `wstool`, and should be listed in a file named dependencies.rosinstall.
+#
+
+# There are envioronment variables you may want to change, such as ROS_DISTRO,
+# ROSINSTALL_FILE, and the CATKIN_OPTIONS file.  See the README.md for more
+# information on these flags, and
+# https://docs.travis-ci.com/user/environment-variables/ for information about
+# Travis environment variables in general.
+#
+# Author: Felix Duvallet <felixd@gmail.com>
+
+# NOTE: The build lifecycle on Travis.ci is something like this:
+#    before_install
+#    install
+#    before_script
+#    script
+#    after_success or after_failure
+#    after_script
+#    OPTIONAL before_deploy
+#    OPTIONAL deploy
+#    OPTIONAL after_deploy
 
 sudo: required
-cache:
-  - apt
-
 language: cpp
-matrix:
-  include:
-  - name: "Xenial kinetic"
-    dist: xenial
-    env: ROS_DISTRO=kinetic
-
+services:
+  - docker
+  
 env:
   global:
-    - ROS_CI_DESKTOP="`lsb_release -cs`"
-    - CI_SOURCE_PATH=$(pwd)
-    - ROSINSTALL_FILE=$CI_SOURCE_PATH/dependencies.rosinstall
-    - CATKIN_OPTIONS=$CI_SOURCE_PATH/catkin.options
-    - ROS_PARALLEL_JOBS='-j8 -l6'
-    - PYTHONPATH=$PYTHONPATH:/usr/lib/python2.7/dist-packages:/usr/local/lib/python2.7/dist-packages
-
-before_install:
-  - sudo sh -c "echo \"deb http://packages.ros.org/ros/ubuntu $ROS_CI_DESKTOP main\" > /etc/apt/sources.list.d/ros-latest.list"
-  - sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
-  - sudo apt-get update -qq
-  - sudo apt-get install dpkg
-  - sudo apt-get install -y python-catkin-pkg python-rosdep python-wstool ros-$ROS_DISTRO-ros-base
-  - source /opt/ros/$ROS_DISTRO/setup.bash
-  - sudo rosdep init
-  - rosdep update
+    - toolset_branch: master
+    - server_type: travis
+    - ros_release_name: kinetic
+    - ubuntu_version_name: xenial
+    - used_modules: check_cache, check_build, code_style_check, check_deb_make, codecov_tool
+    - remote_shell_script: 'https://raw.githubusercontent.com/shadow-robot/sr-build-tools/$toolset_branch/bin/sr-run-ci-build.sh'
 
 install:
-  - mkdir -p ~/catkin_ws/src
-  - cd ~/catkin_ws/src
-  - catkin_init_workspace
-  - cd ~/catkin_ws
-  - catkin_make
-  - source devel/setup.bash
-  - cd ~/catkin_ws/src
-  - ln -s $CI_SOURCE_PATH .
-
-before_script:
-  - cd ~/catkin_ws/src
-  - wstool init
-  - if [[ -f $ROSINSTALL_FILE ]] ; then wstool merge $ROSINSTALL_FILE ; fi
-  - wstool up
-  - cd ~/catkin_ws
-  - rosdep install -y --from-paths src --ignore-src --rosdistro $ROS_DISTRO
+  - sudo apt-get install lcov
+  - gem install coveralls-lcov
 
 script:
-  - source /opt/ros/$ROS_DISTRO/setup.bash
-  - cd ~/catkin_ws
-  - catkin_make $( [ -f $CATKIN_OPTIONS ] && cat $CATKIN_OPTIONS )
-  - source devel/setup.bash
-  - catkin_make run_tests && catkin_test_results
+  - curl -s "$( echo "$remote_shell_script" | sed 's/#/%23/g' )" | bash -x /dev/stdin "$toolset_branch" $server_type $used_modules
 
-after_success:
-- coveralls --root .. -E ".*external.*" -E ".*CMakeFiles.*" -E ".*test/.*.cc.*"
+-after_success:
+  - coveralls --root .. -E ".*external.*" -E ".*CMakeFiles.*" -E ".*test/.*.cc.*"
+  - lcov --directory . --capture --output-file coverage.info # capture coverage info
+  - lcov --remove coverage.info 'tests/*' '/opt/*' '*/devel/*' '/usr/*' --output-file coverage.info # filter out system and test code
+  - lcov --list coverage.info # debug before upload
+  - coveralls-lcov --repo-token ${token} coverage.info # uploads to coveralls
+  # The value of the environment variable ${token} is set in the settings page of your Travis project 
+  # (https://travis-ci.org/<github-user>/<project-name>/settings) under the 'Environment Variables' section.
+
+
+notifications:
+  email: 
+    recipients:
+      - bmathur@umd.edu
+    on_success: always # default: change
+on_failure: always # default: always
