@@ -177,6 +177,7 @@
 
 
 #include "kuka.hpp"
+#include<ros/ros.h>
 #include <kdl/chainfksolver.hpp>
 #include <kdl/chainiksolver.hpp>
 #include<kdl/chain.hpp>
@@ -284,6 +285,9 @@ sensor_msgs::JointState kuka::initializeJointsSub() {
 trajectory_msgs::JointTrajectory kuka::driveRobot(
                                   trajectory_msgs::JointTrajectoryPoint point) {
   trajectory_msgs::JointTrajectory jointCmd;
+  ros::spinOnce();
+  ROS_INFO_STREAM("driving");
+  point.time_from_start = ros::Duration(1.0);
   jointCmd.joint_names.push_back("iiwa_joint_1");
   jointCmd.joint_names.push_back("iiwa_joint_2");
   jointCmd.joint_names.push_back("iiwa_joint_3");
@@ -292,13 +296,16 @@ trajectory_msgs::JointTrajectory kuka::driveRobot(
   jointCmd.joint_names.push_back("iiwa_joint_6");
   jointCmd.joint_names.push_back("iiwa_joint_7");
   jointCmd.header.seq = 0;
+  jointCmd.header.stamp.sec = 0;
+	jointCmd.header.stamp.nsec = 0;
   jointCmd.header.stamp = ros::Time::now();
-  jointCmd.header.frame_id = "";
+  jointCmd.header.frame_id = kuka::id++;
   jointCmd.points.push_back(point);
   return jointCmd;
 }
 
 KDL::Frame kuka::evalKinematicsFK() {
+  ros::spinOnce();
   KDL::Chain chain = kuka::makeChain();
   KDL::ChainFkSolverPos_recursive fksolver =
                                          KDL::ChainFkSolverPos_recursive(chain);
@@ -312,6 +319,8 @@ KDL::Frame kuka::evalKinematicsFK() {
 }
 
 KDL::JntArray kuka::evalKinematicsIK(KDL::Frame cartpos) {
+  ros::spinOnce();
+  kuka::evalKinematicsFK();
   KDL::Chain chain = kuka::makeChain();
   KDL::ChainFkSolverPos_recursive fksolver =
                                          KDL::ChainFkSolverPos_recursive(chain);
