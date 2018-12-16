@@ -199,6 +199,7 @@
 
 class kuka {
  private:
+   int id;
   sensor_msgs::JointState jointsState_;  ///< sensor_msgs::JointState tye
                                 ///< variable to read current joint states
   KDL::Chain kinematicChain_;  ///< KDL::Chain type vaiable for robot chain
