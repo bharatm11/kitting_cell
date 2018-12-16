@@ -17,7 +17,7 @@
 #include <kdl/chainiksolvervel_pinv.hpp>
 #include <kdl/chainiksolverpos_nr.hpp>
 #include <kdl/chainjnttojacsolver.hpp>
-
+#include "Perception.hpp"
 int main(int argc, char **argv) {
   ros::init(argc, argv, "kuka");
   ros::Time::init();
@@ -31,7 +31,7 @@ int main(int argc, char **argv) {
   auto joints_sub = n.subscribe("/iiwa/joint_states",10,  &kuka::getJoints, &ku);
   std::string command_topic = "/iiwa/PositionJointInterface_trajectory_controller/command";
   ros::Publisher cmd_pub = n.advertise<trajectory_msgs::JointTrajectory>(command_topic,1);
-
+Perception d;
   KDL::Frame cartpos;
   ROS_INFO_STREAM("Hi");
   KDL::JntArray inv;
@@ -42,6 +42,7 @@ int main(int argc, char **argv) {
   trajectory_msgs::JointTrajectory cmd;
 
   while (ros::ok()) {
+    d.colorThresholder("red");
     cartpos = ku.evalKinematicsFK();
     jointpositions_new=ku.evalKinematicsIK(cartpos);
     trajectory_msgs::JointTrajectoryPoint pt = ku.normalizePoints(jointpositions_new);
