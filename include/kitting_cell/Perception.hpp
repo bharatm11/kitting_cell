@@ -196,14 +196,9 @@ private:
   std::vector<int>  cylinder1_  {117, 148}; //R
   std::vector<int>  cylinder2_  {149, 145}; //G
   std::vector<int>  cylinder3_  {146, 111}; //B
-  /*
-  * @brief Call back function that reads image recieved from gazebo camera
-  * @param  Reads camera_raw topic message
-  * @return This method returns void
-  */
-  void ReadImg(const sensor_msgs::ImageConstPtr &);
-
 public:
+
+
   /*
   * @brief  Class constructor.
   * @param defines the subscriber to the camera topic
@@ -217,6 +212,12 @@ public:
   * @result returns the cylinder ID for the requested color.
   */
   int colorThresholder(std::string);
+  /*
+  * @brief Call back function that reads image recieved from gazebo camera
+  * @param  Reads camera_raw topic message
+  * @return This method returns void
+  */
+  void ReadImg(const sensor_msgs::ImageConstPtr &);
 };
 
 
