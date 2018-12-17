@@ -1,0 +1,194 @@
+\hypertarget{kukaTests_8cpp}{}\section{test/kuka\+Tests.cpp File Reference}
+\label{kukaTests_8cpp}\index{test/kuka\+Tests.\+cpp@{test/kuka\+Tests.\+cpp}}
+
+
+This is the file for testing the methods of the kuka class.  
+
+
+{\ttfamily \#include $<$gtest/gtest.\+h$>$}\\*
+{\ttfamily \#include $<$std\+\_\+msgs/\+U\+Int8.\+h$>$}\\*
+{\ttfamily \#include $<$std\+\_\+msgs/\+Bool.\+h$>$}\\*
+{\ttfamily \#include $<$std\+\_\+msgs/\+Float64.\+h$>$}\\*
+{\ttfamily \#include $<$std\+\_\+msgs/\+Int16.\+h$>$}\\*
+{\ttfamily \#include $<$ros/ros.\+h$>$}\\*
+{\ttfamily \#include $<$sensor\+\_\+msgs/\+Joint\+State.\+h$>$}\\*
+{\ttfamily \#include $<$trajectory\+\_\+msgs/\+Joint\+Trajectory.\+h$>$}\\*
+{\ttfamily \#include $<$trajectory\+\_\+msgs/\+Joint\+Trajectory\+Point.\+h$>$}\\*
+{\ttfamily \#include $<$kdl/chain.\+hpp$>$}\\*
+{\ttfamily \#include $<$kdl/chainfksolver.\+hpp$>$}\\*
+{\ttfamily \#include $<$kdl/chainiksolver.\+hpp$>$}\\*
+{\ttfamily \#include $<$kdl/chainfksolverpos\+\_\+recursive.\+hpp$>$}\\*
+{\ttfamily \#include $<$kdl/chainiksolvervel\+\_\+pinv.\+hpp$>$}\\*
+{\ttfamily \#include $<$kdl/chainiksolverpos\+\_\+nr.\+hpp$>$}\\*
+{\ttfamily \#include $<$kdl/chainjnttojacsolver.\+hpp$>$}\\*
+{\ttfamily \#include \char`\"{}kuka.\+hpp\char`\"{}}\\*
+Include dependency graph for kuka\+Tests.\+cpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{kukaTests_8cpp__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries T\+E\+ST} (initialize\+Trajectory\+Point\+Test, Check\+Joint\+Names)\hypertarget{kukaTests_8cpp_a8a274457ca8880526287b3687f30f441}{}\label{kukaTests_8cpp_a8a274457ca8880526287b3687f30f441}
+
+\item 
+{\bfseries T\+E\+ST} (initialize\+Trajectory\+Point\+Test, Check\+Trajectoryheader)\hypertarget{kukaTests_8cpp_a502ab2f50aefec1289421a347bbb2e96}{}\label{kukaTests_8cpp_a502ab2f50aefec1289421a347bbb2e96}
+
+\item 
+{\bfseries T\+E\+ST} (initialize\+Home\+Pos\+Test, Check\+Home\+Pos)\hypertarget{kukaTests_8cpp_aaa8d18f9665d1b9fb24da7584c1ca5ae}{}\label{kukaTests_8cpp_aaa8d18f9665d1b9fb24da7584c1ca5ae}
+
+\item 
+{\bfseries T\+E\+ST} (initialize\+Joints\+Sub\+Test, Check\+Joint\+Sub)\hypertarget{kukaTests_8cpp_aac86c8b2e040e4c3ad666871f942893c}{}\label{kukaTests_8cpp_aac86c8b2e040e4c3ad666871f942893c}
+
+\item 
+{\bfseries T\+E\+ST} (initialize\+Joints\+K\+D\+L\+Test, Check\+Joints\+K\+DL)\hypertarget{kukaTests_8cpp_a24c2f7311754d601fe6db831339f9383}{}\label{kukaTests_8cpp_a24c2f7311754d601fe6db831339f9383}
+
+\item 
+{\bfseries T\+E\+ST} (make\+Chain\+Test, Check\+Chain)\hypertarget{kukaTests_8cpp_a94ccf49ee0ad472534ba17b006709b72}{}\label{kukaTests_8cpp_a94ccf49ee0ad472534ba17b006709b72}
+
+\item 
+{\bfseries T\+E\+ST} (Evaluate\+Kinematics, Check\+FK)\hypertarget{kukaTests_8cpp_a489f669b22c591c4ddbc30735daacac4}{}\label{kukaTests_8cpp_a489f669b22c591c4ddbc30735daacac4}
+
+\item 
+{\bfseries T\+E\+ST} (Get\+Joint\+Numbers\+Test, Checkget\+Joint\+Nums)\hypertarget{kukaTests_8cpp_a3057258772412cab360a76dcc4bec723}{}\label{kukaTests_8cpp_a3057258772412cab360a76dcc4bec723}
+
+\item 
+{\bfseries T\+E\+ST} (normalize\+Points\+Test, Checknormalized\+Points)\hypertarget{kukaTests_8cpp_a944f11fd13e20ddcaac1fdb9b0fcc8e2}{}\label{kukaTests_8cpp_a944f11fd13e20ddcaac1fdb9b0fcc8e2}
+
+\item 
+{\bfseries T\+E\+ST} (Evaluate\+Kinematics\+Test, Check\+IK)\hypertarget{kukaTests_8cpp_abc0a9c9322bdf8724c79076cd0992f43}{}\label{kukaTests_8cpp_abc0a9c9322bdf8724c79076cd0992f43}
+
+\item 
+{\bfseries T\+E\+ST} (drive\+Robot\+Test, names)\hypertarget{kukaTests_8cpp_ad06a96d970b49f32fc6aa0057716e596}{}\label{kukaTests_8cpp_ad06a96d970b49f32fc6aa0057716e596}
+
+\item 
+{\bfseries T\+E\+ST} (drive\+Robot\+Test, properties)\hypertarget{kukaTests_8cpp_a1e34471f9cc0b53f308e5b814ef430cf}{}\label{kukaTests_8cpp_a1e34471f9cc0b53f308e5b814ef430cf}
+
+\item 
+{\bfseries T\+E\+ST} (return\+Curr\+Joints\+Test, joints)\hypertarget{kukaTests_8cpp_a136adebcba5438a17104161c8a5f96c4}{}\label{kukaTests_8cpp_a136adebcba5438a17104161c8a5f96c4}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This is the file for testing the methods of the kuka class. 
+
+G\+NU L\+E\+S\+S\+ER G\+E\+N\+E\+R\+AL P\+U\+B\+L\+IC L\+I\+C\+E\+N\+SE Version 3, 29 June 2007
+
+Copyright (C) 2007 Free Software Foundation, Inc. \href{https://fsf.org/}{\tt https\+://fsf.\+org/} Everyone is permitted to copy and distribute verbatim copies of this license document, but changing it is not allowed.
+
+This version of the G\+NU Lesser General Public License incorporates the terms and conditions of version 3 of the G\+NU General Public License, supplemented by the additional permissions listed below.
+
+0. Additional Definitions.
+
+As used herein, \char`\"{}this License\char`\"{} refers to version 3 of the G\+NU Lesser General Public License, and the \char`\"{}\+G\+N\+U G\+P\+L\char`\"{} refers to version 3 of the G\+NU General Public License.
+
+\char`\"{}\+The Library\char`\"{} refers to a covered work governed by this License, other than an Application or a Combined Work as defined below.
+
+An \char`\"{}\+Application\char`\"{} is any work that makes use of an interface provided by the Library, but which is not otherwise based on the Library. Defining a subclass of a class defined by the Library is deemed a mode of using an interface provided by the Library.
+
+A \char`\"{}\+Combined Work\char`\"{} is a work produced by combining or linking an Application with the Library. The particular version of the Library with which the Combined Work was made is also called the \char`\"{}\+Linked
+\+Version\char`\"{}.
+
+The \char`\"{}\+Minimal Corresponding Source\char`\"{} for a Combined Work means the Corresponding Source for the Combined Work, excluding any source code for portions of the Combined Work that, considered in isolation, are based on the Application, and not on the Linked Version.
+
+The \char`\"{}\+Corresponding Application Code\char`\"{} for a Combined Work means the object code and/or source code for the Application, including any data and utility programs needed for reproducing the Combined Work from the Application, but excluding the System Libraries of the Combined Work.
+
+
+\begin{DoxyEnumerate}
+\item Exception to Section 3 of the G\+NU G\+PL.
+\end{DoxyEnumerate}
+
+You may convey a covered work under sections 3 and 4 of this License without being bound by section 3 of the G\+NU G\+PL.
+
+
+\begin{DoxyEnumerate}
+\item Conveying Modified Versions.
+\end{DoxyEnumerate}
+
+If you modify a copy of the Library, and, in your modifications, a facility refers to a function or data to be supplied by an Application that uses the facility (other than as an argument passed when the facility is invoked), then you may convey a copy of the modified version\+:
+
+a) under this License, provided that you make a good faith effort to ensure that, in the event an Application does not supply the function or data, the facility still operates, and performs whatever part of its purpose remains meaningful, or
+
+b) under the G\+NU G\+PL, with none of the additional permissions of this License applicable to that copy.
+
+
+\begin{DoxyEnumerate}
+\item Object Code Incorporating Material from Library Header Files.
+\end{DoxyEnumerate}
+
+The object code form of an Application may incorporate material from a header file that is part of the Library. You may convey such object code under terms of your choice, provided that, if the incorporated material is not limited to numerical parameters, data structure layouts and accessors, or small macros, inline functions and templates (ten or fewer lines in length), you do both of the following\+:
+
+a) Give prominent notice with each copy of the object code that the Library is used in it and that the Library and its use are covered by this License.
+
+b) Accompany the object code with a copy of the G\+NU G\+PL and this license document.
+
+
+\begin{DoxyEnumerate}
+\item Combined Works.
+\end{DoxyEnumerate}
+
+You may convey a Combined Work under terms of your choice that, taken together, effectively do not restrict modification of the portions of the Library contained in the Combined Work and reverse engineering for debugging such modifications, if you also do each of the following\+:
+
+a) Give prominent notice with each copy of the Combined Work that the Library is used in it and that the Library and its use are covered by this License.
+
+b) Accompany the Combined Work with a copy of the G\+NU G\+PL and this license document.
+
+c) For a Combined Work that displays copyright notices during execution, include the copyright notice for the Library among these notices, as well as a reference directing the user to the copies of the G\+NU G\+PL and this license document.
+
+d) Do one of the following\+: \begin{DoxyVerb}0) Convey the Minimal Corresponding Source under the terms of this
+License, and the Corresponding Application Code in a form
+suitable for, and under terms that permit, the user to
+recombine or relink the Application with a modified version of
+the Linked Version to produce a modified Combined Work, in the
+manner specified by section 6 of the GNU GPL for conveying
+Corresponding Source.
+
+1) Use a suitable shared library mechanism for linking with the
+Library.  A suitable mechanism is one that (a) uses at run time
+a copy of the Library already present on the user's computer
+system, and (b) will operate properly with a modified version
+of the Library that is interface-compatible with the Linked
+Version.
+\end{DoxyVerb}
+
+
+e) Provide Installation Information, but only if you would otherwise be required to provide such information under section 6 of the G\+NU G\+PL, and only to the extent that such information is necessary to install and execute a modified version of the Combined Work produced by recombining or relinking the Application with a modified version of the Linked Version. (If you use option 4d0, the Installation Information must accompany the Minimal Corresponding Source and Corresponding Application Code. If you use option 4d1, you must provide the Installation Information in the manner specified by section 6 of the G\+NU G\+PL for conveying Corresponding Source.)
+
+
+\begin{DoxyEnumerate}
+\item Combined Libraries.
+\end{DoxyEnumerate}
+
+You may place library facilities that are a work based on the Library side by side in a single library together with other library facilities that are not Applications and are not covered by this License, and convey such a combined library under terms of your choice, if you do both of the following\+:
+
+a) Accompany the combined library with a copy of the same work based on the Library, uncombined with any other library facilities, conveyed under the terms of this License.
+
+b) Give prominent notice with the combined library that part of it is a work based on the Library, and explaining where to find the accompanying uncombined form of the same work.
+
+
+\begin{DoxyEnumerate}
+\item Revised Versions of the G\+NU Lesser General Public License.
+\end{DoxyEnumerate}
+
+The Free Software Foundation may publish revised and/or new versions of the G\+NU Lesser General Public License from time to time. Such new versions will be similar in spirit to the present version, but may differ in detail to address new problems or concerns.
+
+Each version is given a distinguishing version number. If the Library as you received it specifies that a certain numbered version of the G\+NU Lesser General Public License \char`\"{}or any later version\char`\"{} applies to it, you have the option of following the terms and conditions either of that published version or of any later version published by the Free Software Foundation. If the Library as you received it does not specify a version number of the G\+NU Lesser General Public License, you may choose any version of the G\+NU Lesser General Public License ever published by the Free Software Foundation.
+
+If the Library as you received it specifies that a proxy can decide whether future versions of the G\+NU Lesser General Public License shall apply, that proxy\textquotesingle{}s public statement of acceptance of any version is permanent authorization for you to choose that version for the Library.
+
+\begin{DoxyAuthor}{Author}
+Royneal Rayess \mbox{[}royneal\mbox{]} -\/ driver 
+
+Bharat Mathur \mbox{[}bharatm11\mbox{]} -\/ navigator 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+13 Dec 2018 
+\end{DoxyDate}
+\begin{DoxyCopyright}{Copyright}
+2018 Royneal Rayess 
+\end{DoxyCopyright}

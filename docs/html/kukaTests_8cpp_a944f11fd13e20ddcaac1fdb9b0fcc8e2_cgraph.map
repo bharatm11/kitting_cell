@@ -1,0 +1,4 @@
+<map id="TEST" name="TEST">
+<area shape="rect" id="node2" href="$classkuka.html#a12f118ede95479585988f4b25a67fb17" title="This initializes the joint arrays that are fed to the kinematic solvers. " alt="" coords="109,5,276,32"/>
+<area shape="rect" id="node3" href="$classkuka.html#ab1139c7fec434a2f8fa80f9358a5c9bc" title="This normalizes the joint angles after Inverse Kinematics. " alt="" coords="117,56,268,83"/>
+</map>

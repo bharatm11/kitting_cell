@@ -1,0 +1,9 @@
+<map id="kuka::makeChain" name="kuka::makeChain">
+<area shape="rect" id="node2" href="$classkuka.html#a8886abcfe2aaf33b778a88834f03d6b6" title="This performs the forward kinematics to get cartesian pose from joint angles. " alt="" coords="177,81,341,108"/>
+<area shape="rect" id="node3" href="$classkuka.html#a3075c7d636fbc0f0d5629492a369c23a" title="This performs the inverse kinematics to get joint angles from cartesian pose. " alt="" coords="389,31,549,57"/>
+<area shape="rect" id="node7" href="$classkuka.html#af3a4e7638d63816706f342ddd9ca43e6" title="This is the constructor for the class. " alt="" coords="216,132,303,159"/>
+<area shape="rect" id="node8" href="$kukaTests_8cpp.html#a94ccf49ee0ad472534ba17b006709b72" title="TEST" alt="" coords="231,183,287,209"/>
+<area shape="rect" id="node6" href="$kukaTests_8cpp.html#a489f669b22c591c4ddbc30735daacac4" title="TEST" alt="" coords="441,81,497,108"/>
+<area shape="rect" id="node4" href="$src_2main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="600,5,651,32"/>
+<area shape="rect" id="node5" href="$kukaTests_8cpp.html#abc0a9c9322bdf8724c79076cd0992f43" title="TEST" alt="" coords="597,56,653,83"/>
+</map>

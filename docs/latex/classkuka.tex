@@ -1,0 +1,281 @@
+\hypertarget{classkuka}{}\section{kuka Class Reference}
+\label{classkuka}\index{kuka@{kuka}}
+
+
+Class to calculate forward and inverse kinematics for K\+U\+KA I\+I\+WA.  
+
+
+
+
+{\ttfamily \#include $<$kuka.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classkuka_af3a4e7638d63816706f342ddd9ca43e6}{kuka} ()\hypertarget{classkuka_af3a4e7638d63816706f342ddd9ca43e6}{}\label{classkuka_af3a4e7638d63816706f342ddd9ca43e6}
+
+\begin{DoxyCompactList}\small\item\em This is the constructor for the class. \end{DoxyCompactList}\item 
+trajectory\+\_\+msgs\+::\+Joint\+Trajectory \hyperlink{classkuka_a86a4b26cfec17bf0919ac8758768b9c1}{initialize\+Trajectory\+Point} ()
+\begin{DoxyCompactList}\small\item\em This initializes kuka\+::joint\+Commands\+\_\+ to 0.\+0. \end{DoxyCompactList}\item 
+trajectory\+\_\+msgs\+::\+Joint\+Trajectory\+Point \hyperlink{classkuka_afcf7e69ed9ef7a1a51f830ccaf320a4e}{initialize\+Home\+Pos} ()
+\begin{DoxyCompactList}\small\item\em This initializes the home position for the robot. \end{DoxyCompactList}\item 
+sensor\+\_\+msgs\+::\+Joint\+State \hyperlink{classkuka_a5ce8db8405b7decbad3ba449a7ad3731}{initialize\+Joints\+Sub} ()
+\begin{DoxyCompactList}\small\item\em This initializes the variable that takes in the joint values from the subscriber. \end{DoxyCompactList}\item 
+K\+D\+L\+::\+Jnt\+Array \hyperlink{classkuka_a12f118ede95479585988f4b25a67fb17}{initialize\+Joints\+K\+DL} ()
+\begin{DoxyCompactList}\small\item\em This initializes the joint arrays that are fed to the kinematic solvers. \end{DoxyCompactList}\item 
+K\+D\+L\+::\+Chain \hyperlink{classkuka_ab3c278ba250c7eda435f8dd801b5aca6}{make\+Chain} ()
+\begin{DoxyCompactList}\small\item\em This defines the kinematic chain for K\+DL. \end{DoxyCompactList}\item 
+trajectory\+\_\+msgs\+::\+Joint\+Trajectory\+Point \hyperlink{classkuka_ab1139c7fec434a2f8fa80f9358a5c9bc}{normalize\+Points} (K\+D\+L\+::\+Jnt\+Array)
+\begin{DoxyCompactList}\small\item\em This normalizes the joint angles after Inverse Kinematics. \end{DoxyCompactList}\item 
+void \hyperlink{classkuka_ab7ce79e8daaf42e58c7427c6ea885b59}{get\+Joints} (const sensor\+\_\+msgs\+::\+Joint\+State\+::\+Const\+Ptr \&joints\+State\+\_\+)
+\begin{DoxyCompactList}\small\item\em This is the subscriber to read joint values for the robot. \end{DoxyCompactList}\item 
+K\+D\+L\+::\+Jnt\+Array \hyperlink{classkuka_a3075c7d636fbc0f0d5629492a369c23a}{eval\+Kinematics\+IK} (K\+D\+L\+::\+Frame)
+\begin{DoxyCompactList}\small\item\em This performs the inverse kinematics to get joint angles from cartesian pose. \end{DoxyCompactList}\item 
+K\+D\+L\+::\+Frame \hyperlink{classkuka_a8886abcfe2aaf33b778a88834f03d6b6}{eval\+Kinematics\+FK} ()
+\begin{DoxyCompactList}\small\item\em This performs the forward kinematics to get cartesian pose from joint angles. \end{DoxyCompactList}\item 
+unsigned int \hyperlink{classkuka_a6c6f27f87873fd6d444e1f9878c36c93}{get\+Joint\+Nums} ()
+\begin{DoxyCompactList}\small\item\em This calculates the number of joints in the chain and also preallocates joint\+Pos\+Kdl\+\_\+ and new\+Joint\+Pos\+Kdl\+\_\+ data members. \end{DoxyCompactList}\item 
+trajectory\+\_\+msgs\+::\+Joint\+Trajectory \hyperlink{classkuka_af7cb1ea174f84bc7a38cb3196396e266}{drive\+Robot} (trajectory\+\_\+msgs\+::\+Joint\+Trajectory\+Point)
+\begin{DoxyCompactList}\small\item\em This forms the Joint\+Trajectory message to whoch the robot is supposed to move. \end{DoxyCompactList}\item 
+K\+D\+L\+::\+Jnt\+Array \hyperlink{classkuka_a44a8b59602c01cbf7606410871de7266}{return\+Curr\+Joints} ()
+\begin{DoxyCompactList}\small\item\em This returns the current joint of the robot. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class to calculate forward and inverse kinematics for K\+U\+KA I\+I\+WA. 
+
+\subsection{Member Function Documentation}
+\index{kuka@{kuka}!drive\+Robot@{drive\+Robot}}
+\index{drive\+Robot@{drive\+Robot}!kuka@{kuka}}
+\subsubsection[{\texorpdfstring{drive\+Robot(trajectory\+\_\+msgs\+::\+Joint\+Trajectory\+Point)}{driveRobot(trajectory_msgs::JointTrajectoryPoint)}}]{\setlength{\rightskip}{0pt plus 5cm}trajectory\+\_\+msgs\+::\+Joint\+Trajectory kuka\+::drive\+Robot (
+\begin{DoxyParamCaption}
+\item[{trajectory\+\_\+msgs\+::\+Joint\+Trajectory\+Point}]{point}
+\end{DoxyParamCaption}
+)}\hypertarget{classkuka_af7cb1ea174f84bc7a38cb3196396e266}{}\label{classkuka_af7cb1ea174f84bc7a38cb3196396e266}
+
+
+This forms the Joint\+Trajectory message to whoch the robot is supposed to move. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Joint\+Trajectory\+Point} & containing joint angles \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Joint\+Trajectory to drive the robot 
+\end{DoxyReturn}
+\index{kuka@{kuka}!eval\+Kinematics\+FK@{eval\+Kinematics\+FK}}
+\index{eval\+Kinematics\+FK@{eval\+Kinematics\+FK}!kuka@{kuka}}
+\subsubsection[{\texorpdfstring{eval\+Kinematics\+F\+K()}{evalKinematicsFK()}}]{\setlength{\rightskip}{0pt plus 5cm}K\+D\+L\+::\+Frame kuka\+::eval\+Kinematics\+FK (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classkuka_a8886abcfe2aaf33b778a88834f03d6b6}{}\label{classkuka_a8886abcfe2aaf33b778a88834f03d6b6}
+
+
+This performs the forward kinematics to get cartesian pose from joint angles. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+K\+D\+L\+::\+Frame type cartesian pose from FK 
+\end{DoxyReturn}
+\index{kuka@{kuka}!eval\+Kinematics\+IK@{eval\+Kinematics\+IK}}
+\index{eval\+Kinematics\+IK@{eval\+Kinematics\+IK}!kuka@{kuka}}
+\subsubsection[{\texorpdfstring{eval\+Kinematics\+I\+K(\+K\+D\+L\+::\+Frame)}{evalKinematicsIK(KDL::Frame)}}]{\setlength{\rightskip}{0pt plus 5cm}K\+D\+L\+::\+Jnt\+Array kuka\+::eval\+Kinematics\+IK (
+\begin{DoxyParamCaption}
+\item[{K\+D\+L\+::\+Frame}]{cartpos}
+\end{DoxyParamCaption}
+)}\hypertarget{classkuka_a3075c7d636fbc0f0d5629492a369c23a}{}\label{classkuka_a3075c7d636fbc0f0d5629492a369c23a}
+
+
+This performs the inverse kinematics to get joint angles from cartesian pose. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em the} & cartesian pose \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+K\+D\+L\+::\+Jnt\+Array type joint array calculated from IK 
+\end{DoxyReturn}
+\index{kuka@{kuka}!get\+Joint\+Nums@{get\+Joint\+Nums}}
+\index{get\+Joint\+Nums@{get\+Joint\+Nums}!kuka@{kuka}}
+\subsubsection[{\texorpdfstring{get\+Joint\+Nums()}{getJointNums()}}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int kuka\+::get\+Joint\+Nums (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classkuka_a6c6f27f87873fd6d444e1f9878c36c93}{}\label{classkuka_a6c6f27f87873fd6d444e1f9878c36c93}
+
+
+This calculates the number of joints in the chain and also preallocates joint\+Pos\+Kdl\+\_\+ and new\+Joint\+Pos\+Kdl\+\_\+ data members. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+number of joints as unsigned int variable 
+\end{DoxyReturn}
+\index{kuka@{kuka}!get\+Joints@{get\+Joints}}
+\index{get\+Joints@{get\+Joints}!kuka@{kuka}}
+\subsubsection[{\texorpdfstring{get\+Joints(const sensor\+\_\+msgs\+::\+Joint\+State\+::\+Const\+Ptr \&joints\+State\+\_\+)}{getJoints(const sensor_msgs::JointState::ConstPtr &jointsState_)}}]{\setlength{\rightskip}{0pt plus 5cm}void kuka\+::get\+Joints (
+\begin{DoxyParamCaption}
+\item[{const sensor\+\_\+msgs\+::\+Joint\+State\+::\+Const\+Ptr \&}]{joints\+State\+\_\+}
+\end{DoxyParamCaption}
+)}\hypertarget{classkuka_ab7ce79e8daaf42e58c7427c6ea885b59}{}\label{classkuka_ab7ce79e8daaf42e58c7427c6ea885b59}
+
+
+This is the subscriber to read joint values for the robot. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em joints\+State\+\_\+} & is the variable that holds the current joint values \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\index{kuka@{kuka}!initialize\+Home\+Pos@{initialize\+Home\+Pos}}
+\index{initialize\+Home\+Pos@{initialize\+Home\+Pos}!kuka@{kuka}}
+\subsubsection[{\texorpdfstring{initialize\+Home\+Pos()}{initializeHomePos()}}]{\setlength{\rightskip}{0pt plus 5cm}trajectory\+\_\+msgs\+::\+Joint\+Trajectory\+Point kuka\+::initialize\+Home\+Pos (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classkuka_afcf7e69ed9ef7a1a51f830ccaf320a4e}{}\label{classkuka_afcf7e69ed9ef7a1a51f830ccaf320a4e}
+
+
+This initializes the home position for the robot. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+trajectory\+\_\+msgs\+::\+Joint\+Trajectory\+Point type variable to define robot\textquotesingle{}s destination 
+\end{DoxyReturn}
+\index{kuka@{kuka}!initialize\+Joints\+K\+DL@{initialize\+Joints\+K\+DL}}
+\index{initialize\+Joints\+K\+DL@{initialize\+Joints\+K\+DL}!kuka@{kuka}}
+\subsubsection[{\texorpdfstring{initialize\+Joints\+K\+D\+L()}{initializeJointsKDL()}}]{\setlength{\rightskip}{0pt plus 5cm}K\+D\+L\+::\+Jnt\+Array kuka\+::initialize\+Joints\+K\+DL (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classkuka_a12f118ede95479585988f4b25a67fb17}{}\label{classkuka_a12f118ede95479585988f4b25a67fb17}
+
+
+This initializes the joint arrays that are fed to the kinematic solvers. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+initialized joint arrays for K\+DL solvers 
+\end{DoxyReturn}
+\index{kuka@{kuka}!initialize\+Joints\+Sub@{initialize\+Joints\+Sub}}
+\index{initialize\+Joints\+Sub@{initialize\+Joints\+Sub}!kuka@{kuka}}
+\subsubsection[{\texorpdfstring{initialize\+Joints\+Sub()}{initializeJointsSub()}}]{\setlength{\rightskip}{0pt plus 5cm}sensor\+\_\+msgs\+::\+Joint\+State kuka\+::initialize\+Joints\+Sub (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classkuka_a5ce8db8405b7decbad3ba449a7ad3731}{}\label{classkuka_a5ce8db8405b7decbad3ba449a7ad3731}
+
+
+This initializes the variable that takes in the joint values from the subscriber. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+sensor\+\_\+msgs\+::\+Joint\+State variable to hold joint values 
+\end{DoxyReturn}
+\index{kuka@{kuka}!initialize\+Trajectory\+Point@{initialize\+Trajectory\+Point}}
+\index{initialize\+Trajectory\+Point@{initialize\+Trajectory\+Point}!kuka@{kuka}}
+\subsubsection[{\texorpdfstring{initialize\+Trajectory\+Point()}{initializeTrajectoryPoint()}}]{\setlength{\rightskip}{0pt plus 5cm}trajectory\+\_\+msgs\+::\+Joint\+Trajectory kuka\+::initialize\+Trajectory\+Point (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classkuka_a86a4b26cfec17bf0919ac8758768b9c1}{}\label{classkuka_a86a4b26cfec17bf0919ac8758768b9c1}
+
+
+This initializes kuka\+::joint\+Commands\+\_\+ to 0.\+0. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+trajectory\+\_\+msgs\+::\+Joint\+Trajectory type variable initialized to robot joint names, header, and time stamp 
+\end{DoxyReturn}
+\index{kuka@{kuka}!make\+Chain@{make\+Chain}}
+\index{make\+Chain@{make\+Chain}!kuka@{kuka}}
+\subsubsection[{\texorpdfstring{make\+Chain()}{makeChain()}}]{\setlength{\rightskip}{0pt plus 5cm}K\+D\+L\+::\+Chain kuka\+::make\+Chain (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classkuka_ab3c278ba250c7eda435f8dd801b5aca6}{}\label{classkuka_ab3c278ba250c7eda435f8dd801b5aca6}
+
+
+This defines the kinematic chain for K\+DL. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+K\+D\+L\+::\+Chain variable that holds the kinematic chain 
+\end{DoxyReturn}
+\index{kuka@{kuka}!normalize\+Points@{normalize\+Points}}
+\index{normalize\+Points@{normalize\+Points}!kuka@{kuka}}
+\subsubsection[{\texorpdfstring{normalize\+Points(\+K\+D\+L\+::\+Jnt\+Array)}{normalizePoints(KDL::JntArray)}}]{\setlength{\rightskip}{0pt plus 5cm}trajectory\+\_\+msgs\+::\+Joint\+Trajectory\+Point kuka\+::normalize\+Points (
+\begin{DoxyParamCaption}
+\item[{K\+D\+L\+::\+Jnt\+Array}]{joints}
+\end{DoxyParamCaption}
+)}\hypertarget{classkuka_ab1139c7fec434a2f8fa80f9358a5c9bc}{}\label{classkuka_ab1139c7fec434a2f8fa80f9358a5c9bc}
+
+
+This normalizes the joint angles after Inverse Kinematics. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em the} & joint array calculated frm inverse kinematics \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+trajectory\+\_\+msgs\+::\+Joint\+Trajectory\+Point variable tha holds joint trajectory point to move the robot to 
+\end{DoxyReturn}
+\index{kuka@{kuka}!return\+Curr\+Joints@{return\+Curr\+Joints}}
+\index{return\+Curr\+Joints@{return\+Curr\+Joints}!kuka@{kuka}}
+\subsubsection[{\texorpdfstring{return\+Curr\+Joints()}{returnCurrJoints()}}]{\setlength{\rightskip}{0pt plus 5cm}K\+D\+L\+::\+Jnt\+Array kuka\+::return\+Curr\+Joints (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classkuka_a44a8b59602c01cbf7606410871de7266}{}\label{classkuka_a44a8b59602c01cbf7606410871de7266}
+
+
+This returns the current joint of the robot. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+K\+D\+L\+::\+Jnt\+Array type variable of joint angles 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/kitting\+\_\+cell/\hyperlink{kuka_8hpp}{kuka.\+hpp}\item 
+src/\hyperlink{kuka_8cpp}{kuka.\+cpp}\end{DoxyCompactItemize}

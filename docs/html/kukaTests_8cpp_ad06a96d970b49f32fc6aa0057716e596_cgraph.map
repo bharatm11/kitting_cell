@@ -1,0 +1,7 @@
+<map id="TEST" name="TEST">
+<area shape="rect" id="node2" href="$classkuka.html#af7cb1ea174f84bc7a38cb3196396e266" title="This forms the JointTrajectory message to whoch the robot is supposed to move. " alt="" coords="129,5,250,32"/>
+<area shape="rect" id="node3" href="$classkuka.html#a8886abcfe2aaf33b778a88834f03d6b6" title="This performs the forward kinematics to get cartesian pose from joint angles. " alt="" coords="317,56,481,83"/>
+<area shape="rect" id="node5" href="$classkuka.html#a3075c7d636fbc0f0d5629492a369c23a" title="This performs the inverse kinematics to get joint angles from cartesian pose. " alt="" coords="109,107,269,133"/>
+<area shape="rect" id="node6" href="$classkuka.html#ab1139c7fec434a2f8fa80f9358a5c9bc" title="This normalizes the joint angles after Inverse Kinematics. " alt="" coords="114,157,265,184"/>
+<area shape="rect" id="node4" href="$classkuka.html#ab3c278ba250c7eda435f8dd801b5aca6" title="This defines the kinematic chain for KDL. " alt="" coords="529,81,653,108"/>
+</map>

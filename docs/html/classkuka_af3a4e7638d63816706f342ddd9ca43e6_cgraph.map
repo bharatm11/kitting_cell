@@ -1,0 +1,8 @@
+<map id="kuka::kuka" name="kuka::kuka">
+<area shape="rect" id="node2" href="$classkuka.html#a6c6f27f87873fd6d444e1f9878c36c93" title="This calculates the number of joints in the chain and also preallocates jointPosKdl_ and newJointPosK..." alt="" coords="154,5,293,32"/>
+<area shape="rect" id="node3" href="$classkuka.html#afcf7e69ed9ef7a1a51f830ccaf320a4e" title="This initializes the home position for the robot. " alt="" coords="142,56,305,83"/>
+<area shape="rect" id="node4" href="$classkuka.html#a12f118ede95479585988f4b25a67fb17" title="This initializes the joint arrays that are fed to the kinematic solvers. " alt="" coords="140,107,307,133"/>
+<area shape="rect" id="node5" href="$classkuka.html#a5ce8db8405b7decbad3ba449a7ad3731" title="This initializes the variable that takes in the joint values from the subscriber. ..." alt="" coords="142,157,305,184"/>
+<area shape="rect" id="node6" href="$classkuka.html#a86a4b26cfec17bf0919ac8758768b9c1" title="This initializes kuka::jointCommands_ to 0.0. " alt="" coords="142,209,305,250"/>
+<area shape="rect" id="node7" href="$classkuka.html#ab3c278ba250c7eda435f8dd801b5aca6" title="This defines the kinematic chain for KDL. " alt="" coords="161,275,285,301"/>
+</map>
