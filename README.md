@@ -134,6 +134,23 @@ roslaunch kitting_cell demo.launch colorInput:=red
 ```
 ## Record ROSBag File
 
+A ros bag file records all the topic and messages being published in the terminal. After following the build instructions, to record the bag file, run the following commands:
+```
+cd ~/catkin_ws/
+source devel/setup.bash
+roslaunch kitting_cell demo.launch record:=true
+```
+#### Playing the bag File Generated
+
+To play the bag file, you need ROS master to be running. So, in a new terminal, run the following command:
+```
+roscore
+```
+Then, in a new terminal, run the following commands:
+```
+cd ~/catkin_ws/src/kitting_cell/
+rosbag play <name_of_bag_file>
+```
 ## Services
 
 The vacuum gripper used has two services that are used to switch it ON and switch OFF.
