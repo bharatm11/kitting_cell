@@ -185,10 +185,10 @@
 // Grip class is used to toggle the vacuum gripper on a manipulator
 class Grip {
  private:
-    ros::NodeHandle n; ///< ROS node handle
+    ros::NodeHandle n;  ///< ROS node handle
 
-    ros::ServiceClient gripperOn, gripperOff; ///< Service clients for toggling
-                                              ///< the gripper
+    ros::ServiceClient gripperOn, gripperOff;  ///< Service clients for toggling
+                                               ///< the gripper
 
  public:
   /*

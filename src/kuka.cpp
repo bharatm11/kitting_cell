@@ -237,15 +237,15 @@ void kuka::getJoints(const sensor_msgs::JointState::ConstPtr& msg) {
 //  Get joint numbers for the chain
 unsigned int kuka::getJointNums() {
   kuka::numJoints_ = kuka::kinematicChain_.getNrOfJoints();
-  //initialize joint array
+  // initialize joint array
   kuka::jointPosKdl_ = KDL::JntArray(numJoints_);
-  //initialize joint array
+  // initialize joint array
   kuka::newJointPosKdl_ = KDL::JntArray(numJoints_);
   return kuka::numJoints_;
 }
 // initialize trajectory point message parameters
 trajectory_msgs::JointTrajectory kuka::initializeTrajectoryPoint() {
-  //initialize names
+  // initialize names
   kuka::jointCommands_.joint_names.push_back("iiwa_joint_1");
   kuka::jointCommands_.joint_names.push_back("iiwa_joint_2");
   kuka::jointCommands_.joint_names.push_back("iiwa_joint_3");
@@ -253,11 +253,11 @@ trajectory_msgs::JointTrajectory kuka::initializeTrajectoryPoint() {
   kuka::jointCommands_.joint_names.push_back("iiwa_joint_5");
   kuka::jointCommands_.joint_names.push_back("iiwa_joint_6");
   kuka::jointCommands_.joint_names.push_back("iiwa_joint_7");
-  //initialize message header
+  // initialize message header
   kuka::jointCommands_.header.seq = 0;
-  //initialize message stamo
+  // initialize message stamo
   kuka::jointCommands_.header.stamp = ros::Time::now();
-  //initialize message frame id
+  // initialize message frame id
   kuka::jointCommands_.header.frame_id = "";
   return kuka::jointCommands_;
 }

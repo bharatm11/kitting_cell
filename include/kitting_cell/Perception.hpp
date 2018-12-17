@@ -186,9 +186,8 @@
 
 class Perception {
  private:
-
-  ros::NodeHandle n_; ///< ROS node handle
-  image_transport::ImageTransport imgT_; ///< cv_bridge variable to convert
+  ros::NodeHandle n_;  ///< ROS node handle
+  image_transport::ImageTransport imgT_;  ///< cv_bridge variable to convert
                                   ///< sensor_imgs data to readable openCV data
   image_transport::Subscriber imageSubscriber_;  ///< Image Transport data
                                                     ///< subscriber
