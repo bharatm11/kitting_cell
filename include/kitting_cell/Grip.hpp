@@ -1,4 +1,4 @@
-/**
+/*
 *                     GNU LESSER GENERAL PUBLIC LICENSE
 *                         Version 3, 29 June 2007
 *
@@ -169,7 +169,7 @@
 * @author Bharat Mathur [bharatm11] - driver
 * @author Royneal Rayess [royneal] - navigator
 * @date 15 Dec 2018
-* @copyright 2018 Bharat Mathur
+* @copyright 2018 Bharat Mathur, Royneal Rayess
 * @brief This file defines methods for the Grip class. This class is used to
 *        toggle the vacuum gripper on a manipulator
 */
@@ -185,10 +185,10 @@
 // Grip class is used to toggle the vacuum gripper on a manipulator
 class Grip {
  private:
-    // ROS node handle
-    ros::NodeHandle n;
-    // Create service clients for switching ON and OFF the gripper
-    ros::ServiceClient gripperOn, gripperOff;
+    ros::NodeHandle n; ///< ROS node handle
+
+    ros::ServiceClient gripperOn, gripperOff; ///< Service clients for toggling
+                                              ///< the gripper
 
  public:
   /*
