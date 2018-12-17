@@ -175,8 +175,6 @@
 
 // Bring in gtest
 #include <gtest/gtest.h>
-#include "ros/ros.h"
-#include "kuka.hpp"
 #include<std_msgs/UInt8.h>
 #include<std_msgs/Bool.h>
 #include<std_msgs/Float64.h>
@@ -192,137 +190,134 @@
 #include <kdl/chainiksolvervel_pinv.hpp>
 #include <kdl/chainiksolverpos_nr.hpp>
 #include <kdl/chainjnttojacsolver.hpp>
-#include <boost/scoped_ptr.hpp>
-#include <kdl/jntarray.hpp>
+#include "kuka.hpp"
 
-TEST(initializeTrajectoryPointTest,CheckJointNames) {
+TEST(initializeTrajectoryPointTest, CheckJointNames) {
   ros::Time::init();
-  trajectory_msgs::JointTrajectory obj; // initialize to joint names
+  trajectory_msgs::JointTrajectory obj;  // initialize to joint names
   kuka robot;
   obj = robot.initializeTrajectoryPoint();
 
-  EXPECT_STREQ("iiwa_joint_1",obj.joint_names[0].c_str());
-  EXPECT_STREQ("iiwa_joint_2",obj.joint_names[1].c_str());
-  EXPECT_STREQ("iiwa_joint_3",obj.joint_names[2].c_str());
-  EXPECT_STREQ("iiwa_joint_4",obj.joint_names[3].c_str());
-  EXPECT_STREQ("iiwa_joint_5",obj.joint_names[4].c_str());
-  EXPECT_STREQ("iiwa_joint_6",obj.joint_names[5].c_str());
-  EXPECT_STREQ("iiwa_joint_7",obj.joint_names[6].c_str());
-  EXPECT_EQ(0,obj.header.seq);
+  EXPECT_STREQ("iiwa_joint_1", obj.joint_names[0].c_str());
+  EXPECT_STREQ("iiwa_joint_2", obj.joint_names[1].c_str());
+  EXPECT_STREQ("iiwa_joint_3", obj.joint_names[2].c_str());
+  EXPECT_STREQ("iiwa_joint_4", obj.joint_names[3].c_str());
+  EXPECT_STREQ("iiwa_joint_5", obj.joint_names[4].c_str());
+  EXPECT_STREQ("iiwa_joint_6", obj.joint_names[5].c_str());
+  EXPECT_STREQ("iiwa_joint_7", obj.joint_names[6].c_str());
+  EXPECT_EQ(0, obj.header.seq);
 }
 
-TEST(initializeTrajectoryPointTest,CheckTrajectoryheader) {
+TEST(initializeTrajectoryPointTest, CheckTrajectoryheader) {
   ros::Time::init();
-  trajectory_msgs::JointTrajectory obj; // initialize to joint names
+  trajectory_msgs::JointTrajectory obj;  // initialize to joint names
   kuka robot;
   obj = robot.initializeTrajectoryPoint();
-  EXPECT_EQ(0,obj.header.seq);
+  EXPECT_EQ(0, obj.header.seq);
 }
 
-TEST(initializeHomePosTest,CheckHomePos) {
+TEST(initializeHomePosTest, CheckHomePos) {
   ros::Time::init();
   trajectory_msgs::JointTrajectoryPoint joint;
   kuka robot;
   joint = robot.initializeHomePos();
-  EXPECT_EQ(0,joint.positions[0]);
-  EXPECT_EQ(0,joint.positions[1]);
-  EXPECT_EQ(0,joint.positions[2]);
-  EXPECT_EQ(-1.57,joint.positions[3]);
-  EXPECT_EQ(0,joint.positions[4]);
-  EXPECT_EQ(1.57,joint.positions[5]);
-  EXPECT_EQ(0,joint.positions[6]);
+  EXPECT_EQ(0, joint.positions[0]);
+  EXPECT_EQ(0, joint.positions[1]);
+  EXPECT_EQ(0, joint.positions[2]);
+  EXPECT_EQ(-1.57, joint.positions[3]);
+  EXPECT_EQ(0, joint.positions[4]);
+  EXPECT_EQ(1.57, joint.positions[5]);
+  EXPECT_EQ(0, joint.positions[6]);
 }
 
-
-TEST(initializeJointsSubTest,CheckJointSub) {
+TEST(initializeJointsSubTest, CheckJointSub) {
   ros::Time::init();
-  sensor_msgs::JointState obj; // initialize to joint names
+  sensor_msgs::JointState obj;  // initialize to joint names
   kuka robot; ros::NodeHandle nh_;
   obj = robot.initializeJointsSub();
-  EXPECT_EQ(0.2,obj.position[0]);
+  EXPECT_EQ(0.2, obj.position[0]);
 }
 
-
-TEST(initializeJointsKDLTest,CheckJointsKDL) {
+TEST(initializeJointsKDLTest, CheckJointsKDL) {
   ros::Time::init();
-  KDL::JntArray obj; // initialize to joint names
+  KDL::JntArray obj;  // initialize to joint names
   kuka robot;
   obj = robot.initializeJointsKDL();
-  EXPECT_EQ(0.2,obj(0));
+  EXPECT_EQ(0.2, obj(0));
 }
 
-
-TEST(makeChainTest,CheckChain) {
+TEST(makeChainTest, CheckChain) {
   ros::Time::init();
-  KDL::Chain obj; // initialize to joint names
+  KDL::Chain obj;  // initialize to joint names
   kuka robot;
   obj = robot.makeChain();
-
   int segmnt = obj.getNrOfSegments();
-  EXPECT_EQ(8,segmnt);
+  EXPECT_EQ(8, segmnt);
 }
 
-TEST(EvaluateKinematics,CheckFK) {
+TEST(EvaluateKinematics, CheckFK) {
   ros::Time::init();
   kuka ku;
   KDL::Frame obj = ku.evalKinematicsFK();
-  std::cout<<obj.p[0];
-  EXPECT_NEAR(0.104714,obj.p[0],0.1);
+  std::cout << obj.p[0];
+  EXPECT_NEAR(0.104714, obj.p[0], 0.1);
 }
 
-TEST(GetJointNumbersTest,CheckgetJointNums) {
+TEST(GetJointNumbersTest, CheckgetJointNums) {
   ros::Time::init();
   kuka robot;
   unsigned int obj = robot.getJointNums();
-  EXPECT_EQ(7,obj);
+  EXPECT_EQ(7, obj);
 }
 
-TEST(normalizePointsTest,ChecknormalizedPoints) {
+TEST(normalizePointsTest, ChecknormalizedPoints) {
   ros::Time::init();
   kuka ku;
-  KDL::JntArray joints =ku.initializeJointsKDL();
+  KDL::JntArray joints = ku.initializeJointsKDL();
   trajectory_msgs::JointTrajectoryPoint obj;
-  obj=ku.normalizePoints(joints);
-  EXPECT_NEAR(0.2,obj.positions[1],0.0001);
+  obj = ku.normalizePoints(joints);
+  EXPECT_NEAR(0.2, obj.positions[1], 0.0001);
 }
 
-TEST(EvaluateKinematicsTest,CheckIK) {
+TEST(EvaluateKinematicsTest, CheckIK) {
   ros::Time::init();
   kuka ku;
   KDL::Frame cartpos = ku.evalKinematicsFK();
-  KDL::JntArray jointpositions_new=ku.evalKinematicsIK(cartpos);
-  EXPECT_NEAR(0.2,jointpositions_new(0),0.001);
+  KDL::JntArray jointpositions_new = ku.evalKinematicsIK(cartpos);
+  EXPECT_NEAR(0.2, jointpositions_new(0), 0.001);
 }
 
-TEST(driveRobotTest,names) {
+TEST(driveRobotTest, names) {
   ros::Time::init();
   kuka ku;
   KDL::Frame cartpos = ku.evalKinematicsFK();
-  KDL::JntArray jointpositions_new=ku.evalKinematicsIK(cartpos);
-  trajectory_msgs::JointTrajectoryPoint obj=ku.normalizePoints(jointpositions_new);
+  KDL::JntArray jointpositions_new = ku.evalKinematicsIK(cartpos);
+  trajectory_msgs::JointTrajectoryPoint obj =
+                                        ku.normalizePoints(jointpositions_new);
   trajectory_msgs::JointTrajectory obj2 = ku.driveRobot(obj);
-  EXPECT_STREQ("iiwa_joint_1",obj2.joint_names[0].c_str());
-  EXPECT_STREQ("iiwa_joint_2",obj2.joint_names[1].c_str());
-  EXPECT_STREQ("iiwa_joint_3",obj2.joint_names[2].c_str());
-  EXPECT_STREQ("iiwa_joint_4",obj2.joint_names[3].c_str());
-  EXPECT_STREQ("iiwa_joint_5",obj2.joint_names[4].c_str());
-  EXPECT_STREQ("iiwa_joint_6",obj2.joint_names[5].c_str());
-  EXPECT_STREQ("iiwa_joint_7",obj2.joint_names[6].c_str());
+  EXPECT_STREQ("iiwa_joint_1", obj2.joint_names[0].c_str());
+  EXPECT_STREQ("iiwa_joint_2", obj2.joint_names[1].c_str());
+  EXPECT_STREQ("iiwa_joint_3", obj2.joint_names[2].c_str());
+  EXPECT_STREQ("iiwa_joint_4", obj2.joint_names[3].c_str());
+  EXPECT_STREQ("iiwa_joint_5", obj2.joint_names[4].c_str());
+  EXPECT_STREQ("iiwa_joint_6", obj2.joint_names[5].c_str());
+  EXPECT_STREQ("iiwa_joint_7", obj2.joint_names[6].c_str());
 }
 
-TEST(driveRobotTest,properties) {
+TEST(driveRobotTest, properties) {
   ros::Time::init();
   kuka ku;
   KDL::Frame cartpos = ku.evalKinematicsFK();
-  KDL::JntArray jointpositions_new=ku.evalKinematicsIK(cartpos);
-  trajectory_msgs::JointTrajectoryPoint obj=ku.normalizePoints(jointpositions_new);
+  KDL::JntArray jointpositions_new = ku.evalKinematicsIK(cartpos);
+  trajectory_msgs::JointTrajectoryPoint obj =
+                                        ku.normalizePoints(jointpositions_new);
   trajectory_msgs::JointTrajectory obj2 = ku.driveRobot(obj);
-  EXPECT_EQ(0,obj2.header.seq);
+  EXPECT_EQ(0, obj2.header.seq);
 }
 
-TEST(returnCurrJointsTest,joints) {
+TEST(returnCurrJointsTest, joints) {
   ros::Time::init();
   kuka ku;
   KDL::JntArray obj =  ku.returnCurrJoints();
-  EXPECT_NEAR(0.2,obj(0),0.001);
+  EXPECT_NEAR(0.2, obj(0), 0.001);
 }

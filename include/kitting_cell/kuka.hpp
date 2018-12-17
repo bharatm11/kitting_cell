@@ -172,8 +172,8 @@
 * @brief This file defines the methods for class "kuka" to control a KUKA IIWA
 * manipulator using on IIWA_STACK using OROCOS KDL
 */
-#ifndef ENPM_SOFT_DEV_COURSE_FINAL_PROJECT_SRC_KITTING_CELL_INCLUDE_KUKA_HPP_
-#define ENPM_SOFT_DEV_COURSE_FINAL_PROJECT_SRC_KITTING_CELL_INCLUDE_KUKA_HPP_
+#ifndef MY_GIT_KITTING_CELL_WS_SRC_KITTING_CELL_INCLUDE_KITTING_CELL_KUKA_HPP_
+#define MY_GIT_KITTING_CELL_WS_SRC_KITTING_CELL_INCLUDE_KITTING_CELL_KUKA_HPP_
 
 
 #include<std_msgs/UInt8.h>
@@ -191,7 +191,6 @@
 #include <kdl/chainiksolvervel_pinv.hpp>
 #include <kdl/chainiksolverpos_nr.hpp>
 #include <kdl/chainjnttojacsolver.hpp>
-#include <boost/scoped_ptr.hpp>
 
 /**
 * @brief Class to calculate forward and inverse kinematics for KUKA IIWA
@@ -199,7 +198,7 @@
 
 class kuka {
  private:
-   int id;
+  int id;
   sensor_msgs::JointState jointsState_;  ///< sensor_msgs::JointState tye
                                 ///< variable to read current joint states
   KDL::Chain kinematicChain_;  ///< KDL::Chain type vaiable for robot chain
@@ -306,4 +305,4 @@ class kuka {
   KDL::JntArray returnCurrJoints();
 };
 
-#endif  // ENPM_SOFT_DEV_COURSE_FINAL_PROJECT_SRC_KITTING_CELL_INCLUDE_KUKA_HPP_
+#endif  // MY_GIT_KITTING_CELL_WS_SRC_KITTING_CELL_INCLUDE_KITTING_CELL_KUKA_HPP_

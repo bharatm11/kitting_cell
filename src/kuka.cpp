@@ -176,17 +176,25 @@
 */
 
 
-#include "kuka.hpp"
+
+
+
+#include<std_msgs/UInt8.h>
+#include<std_msgs/Bool.h>
+#include<std_msgs/Float64.h>
+#include<std_msgs/Int16.h>
 #include<ros/ros.h>
+#include<sensor_msgs/JointState.h>
+#include<trajectory_msgs/JointTrajectory.h>
+#include<trajectory_msgs/JointTrajectoryPoint.h>
+#include<kdl/chain.hpp>
 #include <kdl/chainfksolver.hpp>
 #include <kdl/chainiksolver.hpp>
-#include<kdl/chain.hpp>
 #include <kdl/chainfksolverpos_recursive.hpp>
 #include <kdl/chainiksolvervel_pinv.hpp>
 #include <kdl/chainiksolverpos_nr.hpp>
 #include <kdl/chainjnttojacsolver.hpp>
-#include<trajectory_msgs/JointTrajectory.h>
-#include<trajectory_msgs/JointTrajectoryPoint.h>
+#include "kuka.hpp"
 
 KDL::Chain kuka::makeChain() {
   // Define LWR chain_
@@ -297,7 +305,6 @@ trajectory_msgs::JointTrajectory kuka::driveRobot(
   jointCmd.joint_names.push_back("iiwa_joint_7");
   jointCmd.header.seq = 0;
   jointCmd.header.stamp.sec = 0;
-	jointCmd.header.stamp.nsec = 0;
   jointCmd.header.stamp = ros::Time::now();
   jointCmd.header.frame_id = kuka::id++;
   jointCmd.points.push_back(point);
@@ -331,7 +338,8 @@ KDL::JntArray kuka::evalKinematicsIK(KDL::Frame cartpos) {
   return kuka::newJointPosKdl_;
 }
 
-trajectory_msgs::JointTrajectoryPoint kuka::normalizePoints(KDL::JntArray joints) {
+trajectory_msgs::JointTrajectoryPoint kuka::normalizePoints(
+                                                        KDL::JntArray joints) {
   trajectory_msgs::JointTrajectoryPoint point;
   // joints can move between -+: 172,120,172,120,172,120,170
   // double joint_bounds[] = {3.002, 2.0944,3.002, 2.0944,3.002, 2.0944, 3.002};
@@ -343,7 +351,6 @@ trajectory_msgs::JointTrajectoryPoint kuka::normalizePoints(KDL::JntArray joints
       joints(i) += 2*M_PI;
     }
     point.positions.push_back(joints(i));
-    //point.positions[i] = joints(i);
   }
   return point;
 }

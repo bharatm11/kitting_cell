@@ -1,0 +1,12 @@
+bharat@bharat-Inspiron-15-7000-Gaming:~/My_git/kitting_cell_ws/src/kitting_cell$ cpplint src/Grip.cpp src/kuka.cpp src/Perception.cpp include/kitting_cell/Grip.hpp include/kitting_cell/kuka.hpp include/kitting_cell/Perception.hpp  test/GripTests.cpp test/kukaTests.cpp  test/main.cpp  test/PerceptionTests.cpp 
+Done processing src/Grip.cpp
+Done processing src/kuka.cpp
+Done processing src/Perception.cpp
+Done processing include/kitting_cell/Grip.hpp
+Done processing include/kitting_cell/kuka.hpp
+Done processing include/kitting_cell/Perception.hpp
+Done processing test/GripTests.cpp
+Done processing test/kukaTests.cpp
+Done processing test/main.cpp
+Done processing test/PerceptionTests.cpp
+

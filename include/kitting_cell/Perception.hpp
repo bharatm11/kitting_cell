@@ -172,8 +172,8 @@
 * @brief This file defines methods for detecting object colors and localizing
 *        them to provide the mainpulator with a pick target.
 */
-#ifndef ENPM_SOFT_DEV_COURSE_FINAL_PROJECT_SRC_KITTING_CELL_INCLUDE_PERCEPTION_HPP_
-#define ENPM_SOFT_DEV_COURSE_FINAL_PROJECT_SRC_KITTING_CELL_INCLUDE_PERCEPTION_HPP_
+#ifndef MY_GIT_KITTING_CELL_WS_SRC_KITTING_CELL_INCLUDE_KITTING_CELL_PERCEPTION_HPP_
+#define MY_GIT_KITTING_CELL_WS_SRC_KITTING_CELL_INCLUDE_KITTING_CELL_PERCEPTION_HPP_
 
 #include <ros/ros.h>
 #include <cv_bridge/cv_bridge.h>
@@ -184,7 +184,7 @@
 
 
 class Perception {
-private:
+ private:
   // ROS node handle
   ros::NodeHandle n_;
   // A cv_bridge variable to convert sensor_imgs data to readable openCV data
@@ -193,18 +193,17 @@ private:
   image_transport::Subscriber imageSubscriber_;
   cv_bridge::CvImagePtr cv_ptr_;
   // kit parts orderer
-  std::vector<int>  cylinder1_  {117, 148}; //R
-  std::vector<int>  cylinder2_  {149, 145}; //G
-  std::vector<int>  cylinder3_  {146, 111}; //B
-public:
+  std::vector<int>  cylinder1_  {117, 148};  // R
+  std::vector<int>  cylinder2_  {149, 145};  // G
+  std::vector<int>  cylinder3_  {146, 111};  // B
 
-
+ public:
   /*
   * @brief  Class constructor.
   * @param defines the subscriber to the camera topic
   * @return The constructor does not return anything.
   */
-  explicit Perception();
+  Perception();
 
   /*
   * @brief methd that identifies the parts on the table by color thresholding
@@ -221,4 +220,4 @@ public:
 };
 
 
-#endif  // ENPM_SOFT_DEV_COURSE_FINAL_PROJECT_SRC_KITTING_CELL_INCLUDE_PERCEPTION_HPP_
+#endif  // MY_GIT_KITTING_CELL_WS_SRC_KITTING_CELL_INCLUDE_KITTING_CELL_PERCEPTION_HPP_

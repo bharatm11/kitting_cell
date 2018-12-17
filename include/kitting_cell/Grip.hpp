@@ -174,8 +174,8 @@
 *        toggle the vacuum gripper on a manipulator
 */
 
-#ifndef INCLUDE_OBJECT_COLLECTION_ROBOTIC_ARM_KUKAGRIPPER_HPP_
-#define INCLUDE_OBJECT_COLLECTION_ROBOTIC_ARM_KUKAGRIPPER_HPP_
+#ifndef MY_GIT_KITTING_CELL_WS_SRC_KITTING_CELL_INCLUDE_KITTING_CELL_GRIP_HPP_
+#define MY_GIT_KITTING_CELL_WS_SRC_KITTING_CELL_INCLUDE_KITTING_CELL_GRIP_HPP_
 
 #include <std_srvs/Empty.h>
 #include <std_msgs/Bool.h>
@@ -184,12 +184,13 @@
 
 // Grip class is used to toggle the vacuum gripper on a manipulator
 class Grip {
-private:
-  // ROS node handle
-  ros::NodeHandle n;
-  // Create service clients for switching ON and OFF the gripper
-  ros::ServiceClient gripperOn, gripperOff;
-public:
+ private:
+    // ROS node handle
+    ros::NodeHandle n;
+    // Create service clients for switching ON and OFF the gripper
+    ros::ServiceClient gripperOn, gripperOff;
+
+ public:
   /*
   * @brief This is the constructor for the class.
   * @param The constructor does not take any inputs. It creates
@@ -214,4 +215,4 @@ public:
   ~Grip();
 };
 
-#endif  // INCLUDE_OBJECT_COLLECTION_ROBOTIC_ARM_KUKAGRIPPER_HPP_
+#endif  // MY_GIT_KITTING_CELL_WS_SRC_KITTING_CELL_INCLUDE_KITTING_CELL_GRIP_HPP_

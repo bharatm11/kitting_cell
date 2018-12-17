@@ -182,7 +182,7 @@
 #include "Perception.hpp"
 
 // This is the constructor for the class
-Perception::Perception() : imgT_(n_){
+Perception::Perception() : imgT_(n_) {
   // Subscribe to input video feed
   imageSubscriber_ = imgT_.subscribe("/camera/image_raw", 1,
   &Perception::ReadImg, this);
@@ -210,36 +210,38 @@ int Perception::colorThresholder(std::string color) {
   cv::Vec3b cylinder2Color;
   cv::Vec3b cylinder3Color;
   std::vector<cv::Vec3b> colorVec;
-  cylinder1Color = Perception::cv_ptr_->image.at<cv::Vec3b>(Perception::cylinder1_[0],Perception::cylinder1_[1]);
-  cylinder2Color = Perception::cv_ptr_->image.at<cv::Vec3b>(Perception::cylinder2_[0],Perception::cylinder2_[1]);
-  cylinder3Color = Perception::cv_ptr_->image.at<cv::Vec3b>(Perception::cylinder3_[0],Perception::cylinder3_[1]);
+  cylinder1Color = Perception::cv_ptr_->image.at<cv::Vec3b>(
+                          Perception::cylinder1_[0], Perception::cylinder1_[1]);
+  cylinder2Color = Perception::cv_ptr_->image.at<cv::Vec3b>(
+                          Perception::cylinder2_[0], Perception::cylinder2_[1]);
+  cylinder3Color = Perception::cv_ptr_->image.at<cv::Vec3b>(
+                          Perception::cylinder3_[0], Perception::cylinder3_[1]);
 
   colorVec.push_back(cylinder1Color);
   colorVec.push_back(cylinder2Color);
   colorVec.push_back(cylinder3Color);
 
   int pixIndex = 5;
-  if(color =="red") {
+  if (color =="red") {
     pixIndex = 2;
     ROS_INFO_STREAM("looking for red");
-  } else if(color =="green") {
+  } else if (color =="green") {
     pixIndex = 1;
     ROS_INFO_STREAM("looking for green");
-  } else if(color =="blue") {
+  } else if (color =="blue") {
     pixIndex = 0;
     ROS_INFO_STREAM("looking for blue");
   } else {
-    ROS_ERROR("INVALID COLOR INPUT!!! SYSTEM ONLY ACCEPTS red, green or blue VALUES");
+    ROS_ERROR("INVALID COLOR INPUT!!! red, green or blue VALUES only");
     return 6;
     ros::shutdown();
-
   }
-  if((pixIndex==0)||(pixIndex==1)||(pixIndex==2)){
-    for(int i =0;i<3;i++) {
+  if ((pixIndex == 0) || (pixIndex == 1) || (pixIndex == 2)) {
+    for (int i = 0; i < 3; i++) {
       cv::Vec3b vec = colorVec[i];
-      if(int(vec.val[pixIndex])>200){
+      if (static_cast<int>(vec.val[pixIndex]) > 200) {
         ROS_INFO_STREAM(i);
-        return pixIndex; //returns 0,1,2 in BGR format
+        return pixIndex;  //  returns 0,1,2 in BGR format
       }
     }
   }
