@@ -1,5 +1,6 @@
 <launch>
   <arg name="colorInput" default = "red"/>
+<arg name="record" default = "false"/>
   <include file="$(find iiwa_gazebo)/launch/iiwa_gazebo.launch">
   </include>
   <!--  <node name="rqt" pkg="rqt_gui" type="rqt_gui">
@@ -7,4 +8,6 @@
 <node name="kuka" pkg="kitting_cell" type="kuka"  output="screen">
   <param name="colorInput" value="$(arg colorInput)"/>
 </node>
+<node pkg="rosbag" type="record" name="rosbag_record_kuka" args="record -o /$(find kitting_cell)/myrosbag.bag -a" if="$(arg record)">
+	</node>
 </launch>
