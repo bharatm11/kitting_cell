@@ -49,7 +49,9 @@ Link to Sprint Planning Notes: https://docs.google.com/document/d/1iX81NFR4FATnF
 
 ## Video Presentation
 
-The link to the video presentation and demo of the project will be posted here on project completion.
+Video presentations about the project can be found at:
+* Project Overview: https://www.youtube.com/watch?v=sZZJj4xKO0Q&t=2s
+* Installing and running instructions: https://www.youtube.com/watch?v=JFjWG8gV_GU&t=5s
 
 ## Dependencies
 
@@ -266,7 +268,6 @@ google-chrome index.html
 * OpenCV:  Copyright (C) 2015-2016, OpenCV Foundation, all rights reserved.
 * Doxygen license: Copyright © 1997-2016 by Dimitri van Heesch.
 * Googletest license: Copyright 2008, Google Inc.
-* Delaunay triangulation S-hull license: Copyright 2016 Dr David Sinclair
 * iiwa_stack license: Copyright (c) 2016-2017, Salvatore Virga - salvo.virga@tum.de
 * kdl_ros license: Copyright (c) 2016-2017, Ruben Smits - ruben.smits@intermodalics.eu
 
