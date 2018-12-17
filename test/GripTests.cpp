@@ -1,4 +1,4 @@
-/**
+/*
 *                     GNU LESSER GENERAL PUBLIC LICENSE
 *                         Version 3, 29 June 2007
 *
@@ -169,7 +169,7 @@
 * @author Bharat Mathur [bharatm11] - driver
 * @author Royneal Rayess [royneal] - navigator
 * @date 15 Dec 2018
-* @copyright 2018 Bharat Mathur
+* @copyright 2018 Bharat Mathur, Royneal Rayess
 * @brief This file defines the rostests and getests for Grip class
 */
 

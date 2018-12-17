@@ -1,4 +1,4 @@
-/**
+/*
 *                     GNU LESSER GENERAL PUBLIC LICENSE
 *                         Version 3, 29 June 2007
 *
@@ -169,7 +169,7 @@
 * @author Bharat Mathur [bharatm11] - navigator
 *  @author Royneal Rayess [royneal] - driver
 * @date 13 Dec 2018
-* @copyright 2018 Bharat Mathur
+* @copyright 2018 Bharat Mathur, Royneal Rayess
 * @brief This is the file for testing the methods of the Perception class
 */
 #include <gtest/gtest.h>
