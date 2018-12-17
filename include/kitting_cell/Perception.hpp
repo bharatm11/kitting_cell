@@ -1,4 +1,4 @@
-/**
+/*
 *                     GNU LESSER GENERAL PUBLIC LICENSE
 *                         Version 3, 29 June 2007
 *
@@ -166,9 +166,10 @@
 */
 /**
 * @file Perception.hpp
-* @author Bharat Mathur
+* @author Bharat Mathur [bharatm11] - driver
+* @author Royneal Rayess [royneal] - navigator
 * @date 12 Dec 2018
-* @copyright 2018 Bharat Mathur
+* @copyright 2018 Bharat Mathur, Royneal Rayess
 * @brief This file defines methods for detecting object colors and localizing
 *        them to provide the mainpulator with a pick target.
 */
@@ -185,17 +186,17 @@
 
 class Perception {
  private:
-  // ROS node handle
-  ros::NodeHandle n_;
-  // A cv_bridge variable to convert sensor_imgs data to readable openCV data
-  image_transport::ImageTransport imgT_;
-  // Image Transport data subscriber
-  image_transport::Subscriber imageSubscriber_;
-  cv_bridge::CvImagePtr cv_ptr_;
-  // kit parts orderer
-  std::vector<int>  cylinder1_  {117, 148};  // R
-  std::vector<int>  cylinder2_  {149, 145};  // G
-  std::vector<int>  cylinder3_  {146, 111};  // B
+
+  ros::NodeHandle n_; ///< ROS node handle
+  image_transport::ImageTransport imgT_; ///< cv_bridge variable to convert
+                                  ///< sensor_imgs data to readable openCV data
+  image_transport::Subscriber imageSubscriber_;  ///< Image Transport data
+                                                    ///< subscriber
+  cv_bridge::CvImagePtr cv_ptr_;  ///< The variable to read image data
+  // kit parts order (R,G,B)
+  std::vector<int>  cylinder1_  {117, 148};  ///< image coordinates of cylinder2
+  std::vector<int>  cylinder2_  {149, 145};  ///< image coordinates of cylinder1
+  std::vector<int>  cylinder3_  {146, 111};  ///< image coordinates of cylinder0
 
  public:
   /*
@@ -214,10 +215,9 @@ class Perception {
   /*
   * @brief Call back function that reads image recieved from gazebo camera
   * @param  Reads camera_raw topic message
-  * @return This method returns void
+  * @return void void
   */
   void ReadImg(const sensor_msgs::ImageConstPtr &);
 };
-
 
 #endif  // MY_GIT_KITTING_CELL_WS_SRC_KITTING_CELL_INCLUDE_KITTING_CELL_PERCEPTION_HPP_
