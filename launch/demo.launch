@@ -1,5 +1,10 @@
 <launch>
-<include file="$(find iiwa_moveit)/launch/moveit_planning_execution.launch">
-  <arg name="sim" value="false"/>
-</include>
+  <arg name="colorInput" default = "red"/>
+  <include file="$(find iiwa_gazebo)/launch/iiwa_gazebo.launch">
+  </include>
+  <!--  <node name="rqt" pkg="rqt_gui" type="rqt_gui">
+</node> -->
+<node name="kuka" pkg="kitting_cell" type="kuka"  output="screen">
+  <param name="colorInput" value="$(arg colorInput)"/>
+</node>
 </launch>
