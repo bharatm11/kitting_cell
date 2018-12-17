@@ -1,4 +1,4 @@
-/**
+/*
 *                     GNU LESSER GENERAL PUBLIC LICENSE
 *                         Version 3, 29 June 2007
 *
@@ -166,9 +166,10 @@
 */
 /**
 * @file kuka.cpp
-* @author Bharat Mathur
+* @author Bharat Mathur [bharatm11] - driver
+* @author Royneal Rayess [royneal] - navigator
 * @date 27 Nov 2018
-* @copyright 2018 Bharat Mathur
+* @copyright 2018 Bharat Mathur, Royneal Rayess
 * @brief This file implements the methods for class "kuka"
 * This class cpp file defines data members and methods applicable for class
 * kuka to to control a KUKA IIWA manipulator using on IIWA_STACK using
@@ -226,21 +227,25 @@ KDL::Chain kuka::makeChain() {
   kuka::kinematicChain_ = chain_;
   return chain_;
 }
-
+//  Calback to get joint angles
 void kuka::getJoints(const sensor_msgs::JointState::ConstPtr& msg) {
   for (int i = 0; i < msg->position.size(); ++i) {
     kuka::jointsState_.position[i] = msg->position[i];
   }
 }
 
+//  Get joint numbers for the chain
 unsigned int kuka::getJointNums() {
   kuka::numJoints_ = kuka::kinematicChain_.getNrOfJoints();
+  //initialize joint array
   kuka::jointPosKdl_ = KDL::JntArray(numJoints_);
+  //initialize joint array
   kuka::newJointPosKdl_ = KDL::JntArray(numJoints_);
   return kuka::numJoints_;
 }
-
+// initialize trajectory point message parameters
 trajectory_msgs::JointTrajectory kuka::initializeTrajectoryPoint() {
+  //initialize names
   kuka::jointCommands_.joint_names.push_back("iiwa_joint_1");
   kuka::jointCommands_.joint_names.push_back("iiwa_joint_2");
   kuka::jointCommands_.joint_names.push_back("iiwa_joint_3");
@@ -248,12 +253,15 @@ trajectory_msgs::JointTrajectory kuka::initializeTrajectoryPoint() {
   kuka::jointCommands_.joint_names.push_back("iiwa_joint_5");
   kuka::jointCommands_.joint_names.push_back("iiwa_joint_6");
   kuka::jointCommands_.joint_names.push_back("iiwa_joint_7");
+  //initialize message header
   kuka::jointCommands_.header.seq = 0;
+  //initialize message stamo
   kuka::jointCommands_.header.stamp = ros::Time::now();
+  //initialize message frame id
   kuka::jointCommands_.header.frame_id = "";
   return kuka::jointCommands_;
 }
-
+// initialize home location
 trajectory_msgs::JointTrajectoryPoint kuka::initializeHomePos() {
   for (int i = 0; i < kuka::numJoints_; ++i) {
     if (i == 0)
@@ -274,7 +282,7 @@ trajectory_msgs::JointTrajectoryPoint kuka::initializeHomePos() {
   kuka::homePos_.time_from_start = ros::Duration(1.0);
   return kuka::homePos_;
 }
-
+// initialize kdl joint arrays to 0.2
 KDL::JntArray kuka::initializeJointsKDL() {
   for (int i = 0; i < kuka::numJoints_; ++i) {
     kuka::jointPosKdl_(i) = 0.2;
@@ -282,19 +290,22 @@ KDL::JntArray kuka::initializeJointsKDL() {
   }
   return kuka::jointPosKdl_;
 }
-
+// initialize subscriber variabble to 0.2
 sensor_msgs::JointState kuka::initializeJointsSub() {
   for (int i = 0; i < kuka::numJoints_; ++i) {
     kuka::jointsState_.position.push_back(0.2);
   }
   return kuka::jointsState_;
 }
-
+// this function formulates the final point the robot has to drive to
 trajectory_msgs::JointTrajectory kuka::driveRobot(
                                   trajectory_msgs::JointTrajectoryPoint point) {
   trajectory_msgs::JointTrajectory jointCmd;
+  // read subscriber
   ros::spinOnce();
+  // give warning (for physical robots)
   ROS_INFO_STREAM("driving");
+  // point parameters
   point.time_from_start = ros::Duration(1.0);
   jointCmd.joint_names.push_back("iiwa_joint_1");
   jointCmd.joint_names.push_back("iiwa_joint_2");
@@ -307,37 +318,47 @@ trajectory_msgs::JointTrajectory kuka::driveRobot(
   jointCmd.header.stamp.sec = 0;
   jointCmd.header.stamp = ros::Time::now();
   jointCmd.header.frame_id = kuka::id++;
+  // input joint coordinates
   jointCmd.points.push_back(point);
   return jointCmd;
 }
-
+// performs forwardr kinematics on the current joint angles
 KDL::Frame kuka::evalKinematicsFK() {
   ros::spinOnce();
+  // reinitialize chain.
   KDL::Chain chain = kuka::makeChain();
+  // initialize solvers
   KDL::ChainFkSolverPos_recursive fksolver =
                                          KDL::ChainFkSolverPos_recursive(chain);
   KDL::Frame cartPos;
+  // put joint angles in KDL format
   for (int k = 0; k < numJoints_; ++k) {
     kuka::jointPosKdl_(k) = kuka::jointsState_.position[k];
   }
+  // perform FK
   bool status = fksolver.JntToCart(kuka::jointPosKdl_, cartPos);
   kuka::currCartpos_ = cartPos;
   return cartPos;
 }
-
+// performs forwardr kinematics on the current joint angles
 KDL::JntArray kuka::evalKinematicsIK(KDL::Frame cartpos) {
+  // read subscriber
   ros::spinOnce();
+  // perform forward kinematics
   kuka::evalKinematicsFK();
+  // make chain
   KDL::Chain chain = kuka::makeChain();
+  // initiate solvers
   KDL::ChainFkSolverPos_recursive fksolver =
                                          KDL::ChainFkSolverPos_recursive(chain);
   KDL::ChainIkSolverVel_pinv iksolverv = KDL::ChainIkSolverVel_pinv(chain);
   KDL::ChainIkSolverPos_NR iksolver(chain, fksolver, iksolverv, 100, 1e-4);
+  // perform IK
   int ret = iksolver.CartToJnt(kuka::jointPosKdl_, cartpos,
                                                          kuka::newJointPosKdl_);
   return kuka::newJointPosKdl_;
 }
-
+// this function normalizes the points to robot's joint limits
 trajectory_msgs::JointTrajectoryPoint kuka::normalizePoints(
                                                         KDL::JntArray joints) {
   trajectory_msgs::JointTrajectoryPoint point;
@@ -354,7 +375,7 @@ trajectory_msgs::JointTrajectoryPoint kuka::normalizePoints(
   }
   return point;
 }
-
+// this is used to return the current joint values from the esubscriber
 KDL::JntArray kuka::returnCurrJoints() {
   KDL::JntArray joints;
   joints = kuka::jointPosKdl_;

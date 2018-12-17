@@ -1,4 +1,4 @@
-/**
+/*
 *                     GNU LESSER GENERAL PUBLIC LICENSE
 *                         Version 3, 29 June 2007
 *
@@ -169,7 +169,7 @@
 * @author Royneal Rayess [royneal] - driver
 * @author Bharat Mathur [bharatm11] - navigator
 * @date 15 Dec 2018
-* @copyright 2018 Royneal Rayess
+* @copyright 2018 Royneal Rayess, Bharat Mathur
 * @brief This file defines methods for the Grip class. This class is used to
 *        toggle the vacuum gripper on a manipulator
 */

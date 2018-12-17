@@ -1,4 +1,4 @@
-/**
+/*
 *                     GNU LESSER GENERAL PUBLIC LICENSE
 *                         Version 3, 29 June 2007
 *
@@ -166,9 +166,10 @@
 */
 /**
 * @file Perception.hpp
-* @author Bharat Mathur
+* @author Bharat Mathur [bharatm11] - driver
+* @author Royneal Rayess [royneal] - navigator
 * @date 12 Dec 2018
-* @copyright 2018 Bharat Mathur
+* @copyright 2018 Bharat Mathur, Royneal Rayess
 * @brief This file defines the methods for class the Perception class. This
 *        class is responsible for detection and localizing red, green, and blue
 *        objects in the image which is read through a ROS  topic.
@@ -201,8 +202,9 @@ void Perception::ReadImg(const sensor_msgs::ImageConstPtr & msg) {
   }
 }
 
-// This is the first method of the class. It detects the position of a
-// particularly colored object.
+// This detects the position of a colored object. The locations of the cylinders
+// are hard coded in image coordinate system. The system identifies which
+// cylinder is of which color
 int Perception::colorThresholder(std::string color) {
   std::vector<int> order;
   cv::Vec3b cylinder1Color;
@@ -210,17 +212,19 @@ int Perception::colorThresholder(std::string color) {
   cv::Vec3b cylinder2Color;
   cv::Vec3b cylinder3Color;
   std::vector<cv::Vec3b> colorVec;
+  // 3D color vector of center of each cylinder
   cylinder1Color = Perception::cv_ptr_->image.at<cv::Vec3b>(
                           Perception::cylinder1_[0], Perception::cylinder1_[1]);
   cylinder2Color = Perception::cv_ptr_->image.at<cv::Vec3b>(
                           Perception::cylinder2_[0], Perception::cylinder2_[1]);
   cylinder3Color = Perception::cv_ptr_->image.at<cv::Vec3b>(
                           Perception::cylinder3_[0], Perception::cylinder3_[1]);
-
+// Make vector of color vectors
   colorVec.push_back(cylinder1Color);
   colorVec.push_back(cylinder2Color);
   colorVec.push_back(cylinder3Color);
-
+// Inialize flag. This stores the ID of the ylinder of the color being searched
+// for
   int pixIndex = 5;
   if (color =="red") {
     pixIndex = 2;
